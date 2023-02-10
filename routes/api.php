@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PermissionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
@@ -20,3 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('page/{id?}', [PageController::class, 'getPage']);
+Route::get('permission/{id}', [PermissionController::class,'getPermission']);
+Route::get('permission', [PermissionController::class,'addPermission']);
