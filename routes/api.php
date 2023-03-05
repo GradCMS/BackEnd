@@ -22,4 +22,3 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('page/{id?}', [PageController::class, 'getPage']);
 Route::get('permission/{id}', [PermissionController::class,'getPermission']);
-Route::get('permission', [PermissionController::class,'addPermission']);

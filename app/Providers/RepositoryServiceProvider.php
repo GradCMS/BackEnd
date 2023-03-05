@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use App\Http\Repository\PageRepo;
+use App\Http\Repository\PermissionRepo;
+use App\Models\Page;
+use http\Env;
 use Illuminate\Support\ServiceProvider;
 use App\Http\RepoInterfaces\CRUDRepoInterface;
 
@@ -15,7 +18,7 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(CRUDRepoInterface::class, PageRepo::class);
+        $this->app->bind(CRUDRepoInterface::class, PermissionRepo::class);
     }
 
     /**
