@@ -14,10 +14,8 @@ class CreateModuleDisplayTable extends Migration
     public function up()
     {
         Schema::create('module_display', function (Blueprint $table) {
-            $table->id();
             $table->unsignedBigInteger('module_id');
             $table->unsignedBigInteger('display_id');
-            $table->timestamps();
 
             $table->foreign('display_id')->references('id')->on('displays')
                 ->onDelete('cascade');

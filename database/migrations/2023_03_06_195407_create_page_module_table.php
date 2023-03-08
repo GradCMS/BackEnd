@@ -14,10 +14,8 @@ class CreatePageModuleTable extends Migration
     public function up()
     {
         Schema::create('page_module', function (Blueprint $table) {
-            $table->id();
             $table->unsignedBigInteger('page_id');
             $table->unsignedBigInteger('module_id');
-            $table->timestamps();
 
             $table->foreign('page_id')->references('id')->on('pages')
                 ->onDelete('cascade');
