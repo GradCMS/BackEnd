@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Display extends Model
 {
@@ -27,5 +28,9 @@ class Display extends Model
     public function gridSetting(): BelongsTo
     {
         return $this->belongsTo(GridSetting::class,'grid_settings_id');
+    }
+    public function modules():BelongsToMany
+    {
+        return $this->belongsToMany(Module::class, 'module_display');
     }
 }

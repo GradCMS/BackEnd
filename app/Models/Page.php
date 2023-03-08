@@ -29,7 +29,7 @@ protected $fillable = [
         return $this->belongsTo(Page::class, 'parent_id');
     }
 
-    public function children(): HasMany  // a page can have mony children (be a parent to many pages)
+    public function children(): HasMany  // a page can have many children (be a parent to many pages)
     {
         return $this->hasMany(Page::class, 'parent_id');
     }
@@ -38,7 +38,7 @@ protected $fillable = [
     {
         return $this->hasMany(Display::class);
     }
-    public function modules(): BelongsToMany // every page has many modules
+    public function modules():BelongsToMany // every page has many modules
     {
         return $this->belongsToMany(Module::class,'page_module');
     }

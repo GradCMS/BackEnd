@@ -24,7 +24,12 @@ class Module extends Model
     {
         return $this->belongsToMany(Page::class, 'page_module');
     }
-    public function cssClass(): BelongsTo{
+    public function cssClass(): BelongsTo
+    {
         return $this->belongsTo(CssClass::class,'class_id');
+    }
+    public function displays(): BelongsToMany
+    {
+        return $this->belongsToMany(Display::class, 'module_display');
     }
 }
