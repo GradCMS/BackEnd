@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class GridSetting extends Model
 {
@@ -17,4 +19,13 @@ class GridSetting extends Model
         'horizontal_alignment',
         'vertical_alignment'
     ];
+
+    public function displays(): HasMany
+    {
+        return $this->HasMany(Display::class);
+    }
+
+    public function cssClass(): BelongsTo{
+        return $this->belongsTo(CssClass::class,'class_id');
+    }
 }

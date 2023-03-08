@@ -20,6 +20,12 @@ class Display extends Model
     {
         return $this->belongsTo(Page::class, 'source_page_id');
     }
-
-
+    public function sliderSetting(): BelongsTo
+    {
+        return $this->belongsTo(SliderSetting::class,'slider_settings_id');
+    }
+    public function gridSetting(): BelongsTo
+    {
+        return $this->belongsTo(GridSetting::class,'grid_settings_id');
+    }
 }
