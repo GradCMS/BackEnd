@@ -34,7 +34,7 @@ class test extends Controller
         $page->parent_id = $request->input('parent_id');
         $page->save();
 
-        return response()->json(['message'=>'page create sucessfully'], 201);
+        return response()->json(['message'=>'page create successfully'], 201);
     }
 
     public function createCssClass(Request $request): JsonResponse
@@ -52,7 +52,7 @@ class test extends Controller
         $class->tags = $request->input('tags');
         $class->save();
 
-        return response()->json(['message'=>'class created sucessfully']);
+        return response()->json(['message'=>'class created successfully']);
     }
 
     public function createModule(Request $request): JsonResponse
@@ -71,7 +71,7 @@ class test extends Controller
         $class->class_id = $request->input('class_id');
         $class->save();
 
-        return response()->json(['message'=>'Module created sucessfully']);
+        return response()->json(['message'=>'Module created successfully']);
     }
 
     public function addModuleToPage(Request $request): JsonResponse
@@ -120,7 +120,7 @@ class test extends Controller
         $gridSettings->class_id = $request->input('class_id');
         $gridSettings->save();
 
-        return response()->json(['message'=>'grid settings created sucessfully']);
+        return response()->json(['message'=>'grid settings created successfully']);
     }
 
     public function createSliderSetting(Request $request): JsonResponse
@@ -142,12 +142,12 @@ class test extends Controller
 
         ];
 
-        $silderSettings = new SliderSetting;
-        $silderSettings->fill($data);
-        $silderSettings->class_id = $request->input('class_id');
-        $silderSettings->save();
+        $sliderSetting = new SliderSetting;
+        $sliderSetting->fill($data);
+        $sliderSetting->class_id = $request->input('class_id');
+        $sliderSetting->save();
 
-        return response()->json(['message'=>'slider settings created sucessfully']);
+        return response()->json(['message'=>'slider settings created successfully']);
     }
 
     public function createDisplay(Request $request): JsonResponse
@@ -170,7 +170,7 @@ class test extends Controller
 
         $display->save();
 
-        return response()->json(['message'=>'Display is create sucessfully']);
+        return response()->json(['message'=>'Display is create successfully']);
     }
 
 }
