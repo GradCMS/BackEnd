@@ -88,6 +88,7 @@ class test extends Controller
         $page->modules()->attach($module);
         return response()->json(['message' => 'Module added to page successfully']);
     }
+
     public function addDisplayToModule(Request $request): JsonResponse
     {
         $data = [
@@ -172,5 +173,18 @@ class test extends Controller
 
         return response()->json(['message'=>'Display is create successfully']);
     }
+
+/*  example (note the called repo instances needs to be registered in the container before being called)
+
+     *  $registry = RepositoryRegistry::getInstance('key');
+     *  $page_repo = $registry->get('page');
+     *  $another_repo = $registery->get('another_repo)
+     *  $page_repo->create($data)
+     *
+ *
+ * in the controller constructor inject the registery interface and create inside it and get from it instances from
+*/
+
+
 
 }

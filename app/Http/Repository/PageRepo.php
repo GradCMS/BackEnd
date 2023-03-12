@@ -10,7 +10,8 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @mixin Builder
  */
-class PageRepo implements CRUDRepoInterface{
+class PageRepo implements CRUDRepoInterface
+{
 
 
     public function getAll()
@@ -43,4 +44,5 @@ class PageRepo implements CRUDRepoInterface{
         // TODO: Implement update() method.
         return Page::Query()->where($id)->update($modelDetails);
     }
+
 }

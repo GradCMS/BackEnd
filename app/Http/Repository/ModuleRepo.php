@@ -4,35 +4,45 @@ namespace App\Http\Repository;
 
 use App\Http\RepoInterfaces\CRUDRepoInterface;
 use App\Models\Module;
-use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Post
- *
- * @mixin Builder
- */
 class ModuleRepo implements CRUDRepoInterface
 {
 
+    /**
+     * @param array $modelDetails
+     * @return mixed
+     */
+    public function create(array $modelDetails)
+    {
+        return Module::Query()->create($modelDetails);
+    }
+
+    /**
+     * @return mixed
+     */
     public function getAll()
     {
         return Module::all();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function getById($id)
     {
         return Module::Query()->findOrFail($id);
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function delete($id)
     {
         return Module::destroy($id);
     }
 
-    public function create(array $modelDetails)
-    {
-        return Module::Query()->create($modelDetails);
-    }
 
     public function update($id, array $modelDetails)
     {
