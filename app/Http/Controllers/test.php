@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Display;
 use App\Models\GridSetting;
 use App\Models\SliderSetting;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\CssClass;
 use App\Models\Module;
 use App\Models\Page;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use PhpParser\Node\Expr\AssignOp\Mod;
 
 class test extends Controller
@@ -184,6 +186,36 @@ class test extends Controller
  *
  * in the controller constructor inject the registery interface and create inside it and get from it instances from
 */
+
+
+    public function createUser(Request $request): JsonResponse
+    {
+
+        $validator = Validator::make($request->all(), [
+            'user_name' => 'required|unique:users',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:3',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $data = [
+            'user_name'=> $request->input('user_name'),
+            'email'=> $request->input('email'),
+        ];
+
+        $user = new User();
+        $user->fill($data);
+
+        $user->password = bcrypt($request->input('password'));
+
+
+        $user->save();
+
+        return response()->json(['message'=>'user is create successfully']);
+    }
 
 
 
