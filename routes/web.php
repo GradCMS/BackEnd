@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Services\Auth\AuthService;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,7 +16,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () { return view('welcome');});
-Route::get('test', function () {
-         return response()->json(['error'=>'Unothrized action| bad token'], 401);
-    }
-);
+
+
+Route::get('unathorized', [AuthService::class, 'unauthorized']);

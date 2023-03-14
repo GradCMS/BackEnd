@@ -8,6 +8,7 @@ class Authenticate extends Middleware
 {
     /**
      * Get the path the user should be redirected to when they are not authenticated.
+     * the path defined at web.php route file
      *
      * @param \Illuminate\Http\Request $request
      * @return string|null
@@ -15,7 +16,7 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
         if (!$request->expectsJson()) {
-            return "test";
+            return "unathorized";
         }
 
 
