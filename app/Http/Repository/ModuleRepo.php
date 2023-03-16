@@ -12,7 +12,7 @@ class ModuleRepo implements CRUDRepoInterface
      * @param array $modelDetails
      * @return mixed
      */
-    public function create(array $modelDetails)
+    public function create($modelDetails)
     {
         return Module::Query()->create($modelDetails);
     }
@@ -44,7 +44,7 @@ class ModuleRepo implements CRUDRepoInterface
     }
 
 
-    public function update($id, array $modelDetails)
+    public function update($id,$modelDetails)
     {
         return Module::Query()->where($id)->update($modelDetails);
     }

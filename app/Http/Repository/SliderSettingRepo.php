@@ -28,12 +28,12 @@ class SliderSettingRepo implements CRUDRepoInterface
         return SliderSetting::destroy($id);
     }
 
-    public function create(array $modelDetails)
+    public function create($modelDetails)
     {
         return SliderSetting::Query()->create($modelDetails);
     }
 
-    public function update($id, array $modelDetails)
+    public function update($id, $modelDetails)
     {
         return SliderSetting::Query()->where($id)->update($modelDetails);
     }

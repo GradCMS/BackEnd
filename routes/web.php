@@ -15,7 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () { return view('welcome');});
+Route::get('/', function () {
+//    dd(app());
+    return view('welcome');
+});
+
 
 
 Route::get('unathorized', [AuthService::class, 'unauthorized']);

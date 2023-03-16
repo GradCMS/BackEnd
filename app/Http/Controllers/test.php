@@ -2,21 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\Auth\RoleService;
+use App\Models\CssClass;
 use App\Models\Display;
 use App\Models\GridSetting;
-use App\Models\SliderSetting;
-use App\Models\User;
-use Illuminate\Database\Eloquent\Builder;
-use App\Models\CssClass;
 use App\Models\Module;
 use App\Models\Page;
+use App\Models\SliderSetting;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use PhpParser\Node\Expr\AssignOp\Mod;
 
 class test extends Controller
 {
+    private $roleService;
+    public function __construct(RoleService $roleService)
+    {
+
+        $this->roleService = $roleService;
+    }
+
     public function createPage(Request $request): JsonResponse
     {
         $data = [
@@ -216,6 +222,42 @@ class test extends Controller
 
         return response()->json(['message'=>'user is create successfully']);
     }
+
+    public function createRole(Request $request): JsonResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|unique:roles'
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+        $roleName = $request->input('name');
+        $this->roleService->createRole($roleName);
+        return response()->json([
+            'message'=>'Role created successfully'
+        ], 201);
+    }
+
+    public function getRoles(Request $request): JsonResponse
+    {
+        return response()->json([$this->roleService->getRolesWithPermissions()]);
+    }
+
+    public function addPermisionsToRole(Request $request): JsonResponse
+    {
+        $id = $request->input('id');
+        $validatedData = $request->validate([
+            'permissions' => ['required', 'array'],
+            'permissions.*' => ['exists:permissions,name'],
+        ]);
+        $permissions = $validatedData['permissions'];
+        $this->roleService->updatePermissionsInRole($id, $permissions);
+        return response()->json([
+           "message"=>"Permissions added succesfully",
+           "permissions"=>$permissions
+        ]);
+    }
+
 
 
 

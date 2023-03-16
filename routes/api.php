@@ -39,6 +39,9 @@ Route::post('createSlider', [test::class, 'createSliderSetting']);
 Route::post('createDisplay', [test::class, 'createDisplay']);
 Route::post('addDisplayToModule', [test::class, 'addDisplayToModule']);
 Route::post('createUser', [test::class, 'createUser']);
+Route::post('createRole', [test::class, 'createRole']);
+Route::get('getRoles', [test::class, 'getRoles']);
+Route::post('addPermissions', [test::class, 'addPermisionsToRole']);
 
 
 

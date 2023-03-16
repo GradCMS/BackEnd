@@ -29,12 +29,12 @@ class UserRepo implements CRUDRepoInterface
         return User::destroy($id);
     }
 
-    public function create(array $modelDetails)
+    public function create($modelDetails)
     {
         return User::Query()->create($modelDetails);
     }
 
-    public function update($id, array $modelDetails)
+    public function update($id, $modelDetails)
     {
         return User::Query()->where($id)->update($modelDetails);
     }
