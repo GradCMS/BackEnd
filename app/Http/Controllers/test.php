@@ -13,6 +13,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use MongoDB\Driver\Query;
 
 class test extends Controller
 {
@@ -257,8 +258,17 @@ class test extends Controller
            "permissions"=>$permissions
         ]);
     }
+    public function getPage($id):JsonResponse
+    {
+        $page = Page::Query()->findOrFail($id);
+        return response()->json(["page"=>$page]);
+    }
 
-
+    public function getPageModules($id):JsonResponse
+    {
+        $page = Page::with('modules')->find($id);
+        return response()->json(["page"=>$page]);
+    }
 
 
 }

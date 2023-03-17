@@ -43,7 +43,9 @@ Route::prefix('test')->group(function(){
     Route::post('createUser', [test::class, 'createUser']);
     Route::post('createRole', [test::class, 'createRole']);
     Route::get('getRoles', [test::class, 'getRoles']);
-    Route::post('addPermissions', [test::class, 'addPermisionsToRole']);
+    Route::post('addPermissions', [test::class, 'addPermissionsToRole']);
+    Route::get('getPage/{id}',[test::class,'getPage']);
+    Route::get('getPageModules/{id}',[test::class, 'getPageModules']);
 });
 
 
