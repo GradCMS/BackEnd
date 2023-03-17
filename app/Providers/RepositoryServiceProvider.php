@@ -3,16 +3,16 @@
 namespace App\Providers;
 
 use App\Http\RepoInterfaces\RepoRegisteryInterface;
+use App\Http\RepoInterfaces\RepositoryRegistery;
+use App\Http\Repository\Auth\PermissionRepo;
+use App\Http\Repository\Auth\RoleRepo;
 use App\Http\Repository\CssClassRepo;
 use App\Http\Repository\DisplayRepo;
 use App\Http\Repository\GridSettingRepo;
 use App\Http\Repository\ModuleRepo;
 use App\Http\Repository\PageRepo;
-use App\Http\Repository\PermissionRepo;
-use App\Http\Repository\RoleRepo;
 use App\Http\Repository\SliderSettingRepo;
 use Illuminate\Support\ServiceProvider;
-use App\Http\RepoInterfaces\RepositoryRegistery;
 
 class RepositoryServiceProvider extends ServiceProvider
 {

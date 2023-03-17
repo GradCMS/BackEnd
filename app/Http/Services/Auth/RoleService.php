@@ -25,7 +25,7 @@ class RoleService{
         return $this->roleRepo->create($name);
     }
 
-    public function deleteRole($id)
+    public function deleteRole($id): void
     {
          $this->roleRepo->delete($id);
     }
@@ -38,11 +38,17 @@ class RoleService{
         return $this->roleRepo->getById($id);
     }
 
+    /**
+     * get all roles without related permissions
+    */
     public function getAllRoles():Role
     {
         return $this->roleRepo->getAll();
     }
 
+    /**
+     * get all roles with related permissions
+     */
     public function getRolesWithPermissions()
     {
         return $this->roleRepo->getRolesWithPermissions();

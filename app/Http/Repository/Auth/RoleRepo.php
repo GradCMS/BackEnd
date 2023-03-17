@@ -1,14 +1,11 @@
 <?php
 
-namespace App\Http\Repository;
+namespace App\Http\Repository\Auth;
 
-use App\Http\RepoInterfaces\CRUDRepoInterface;
 use App\Http\RepoInterfaces\RoleInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Psy\Exception\TypeErrorException;
-use Spatie\Permission\Exceptions\RoleDoesNotExist;
 use Spatie\Permission\Models\Role;
 
 class RoleRepo implements RoleInterface
@@ -60,7 +57,7 @@ class RoleRepo implements RoleInterface
 
     /**
      * @param $id
-     * @return
+     *
      */
     public function delete($id)
     {

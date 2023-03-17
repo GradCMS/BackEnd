@@ -1,13 +1,10 @@
 <?php
 
-use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\test;
-use App\Http\Services\Auth\AuthService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PageController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\PermissionController;
+use App\Http\Controllers\Auth\RoleController;
+use App\Http\Controllers\test;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------

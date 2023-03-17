@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Repository;
+namespace App\Http\Repository\Auth;
 
 use App\Exceptions\MethodNotImplementedException;
 use App\Http\RepoInterfaces\CRUDRepoInterface;

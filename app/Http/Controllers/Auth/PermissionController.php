@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Http\Services\Auth\PermissionService;
-use App\Http\Services\Auth\RoleService;
 use Illuminate\Http\JsonResponse;
-use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
 {

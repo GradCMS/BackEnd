@@ -3,11 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\RepoInterfaces\CRUDRepoInterface;
-use App\Http\Repository\PageRepo;
-use App\Http\Repository\PermissionRepo;
 use App\Models\Page;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 
 class PageController extends Controller // controllers handles all the requests
 {
