@@ -63,5 +63,9 @@ Route::prefix('roles')->group(function (){
     Route::delete('delete/{id}', [RoleController::class, 'deleteRole']);
 });
 
+Route::prefix('permissions')->group(function(){
+    Route::get('/',[PermissionController::class, 'getPermissions']);
+});
+
 
 

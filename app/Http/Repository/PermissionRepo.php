@@ -4,14 +4,13 @@ namespace App\Http\Repository;
 
 use App\Exceptions\MethodNotImplementedException;
 use App\Http\RepoInterfaces\CRUDRepoInterface;
+use Illuminate\Database\Eloquent\Collection;
 use Spatie\Permission\Models\Permission;
 
 class PermissionRepo implements CRUDRepoInterface
 {
-    /**
-     * @return Permission[]
-     */
-    public function getAll(): array
+
+    public function getAll(): Collection|array
     {
         return Permission::all();
     }

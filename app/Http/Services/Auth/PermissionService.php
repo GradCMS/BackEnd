@@ -16,7 +16,7 @@ class PermissionService
         $this->permissionRepo = $this->registry->get('permission');
     }
 
-    public function getAllPermissions():Permission
+    public function getAllPermissions()
     {
         return $this->permissionRepo->getAll();
     }
