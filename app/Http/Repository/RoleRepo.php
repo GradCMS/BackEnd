@@ -4,7 +4,11 @@ namespace App\Http\Repository;
 
 use App\Http\RepoInterfaces\CRUDRepoInterface;
 use App\Http\RepoInterfaces\RoleInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Psy\Exception\TypeErrorException;
+use Spatie\Permission\Exceptions\RoleDoesNotExist;
 use Spatie\Permission\Models\Role;
 
 class RoleRepo implements RoleInterface
@@ -12,14 +16,17 @@ class RoleRepo implements RoleInterface
 
     /**
      * @param $name
-     * @return void
+     * @return Builder|Model|void
      */
-    public function create($name):void
+    public function create($name)
     {
-        Role::create([
-            'name'=>$name,
-            'guard_name'=>'api'   // in case multiple guards were used in the future
+        $role = Role::create([
+            'name' => $name,
+            'guard_name' => 'api'   // in case multiple guards were used in the future
         ]);
+        if ($role) {
+            return $role;
+        }
     }
 
     /**
@@ -53,15 +60,16 @@ class RoleRepo implements RoleInterface
 
     /**
      * @param $id
-     * @return void
+     * @return
      */
-    public function delete($id):void
+    public function delete($id)
     {
         $role = Role::findById($id);
         $role->delete();
     }
 
     /**
+     * get all roles with related permissions
      * @return Collection|array
      */
     public function getRolesWithPermissions(): Collection|array
@@ -70,10 +78,11 @@ class RoleRepo implements RoleInterface
     }
 
     /**
+     * get certain role {id} with related permissions
      * @param $id
      * @return mixed
      */
-    public function getPermissionsOfRole($id):mixed
+    public function getRoleWithPermissions($id):mixed
     {
         return Role::with('permissions')->find($id);
     }

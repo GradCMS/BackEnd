@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\test;
 use App\Http\Services\Auth\AuthService;
 use Illuminate\Http\Request;
@@ -19,35 +20,48 @@ use App\Http\Controllers\Auth\AuthController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-Route::get('page/{id?}', [PageController::class, 'getPage']);
-Route::get('permission/{id}', [PermissionController::class,'getPermission']);
+//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
+//
+//Route::get('page/{id?}', [PageController::class, 'getPage']);
+//Route::get('permission/{id}', [PermissionController::class,'getPermission']);
 
 
 
 
 // test routes
-Route::post('createPage', [test::class, 'createPage']);
-Route::post('createClass', [test::class, 'createCssClass']);
-Route::post('createModule', [test::class, 'createModule']);
-Route::post('addModule', [test::class, 'addModuleToPage']);
-Route::post('createGrid', [test::class, 'createGridSetting']);
-Route::post('createSlider', [test::class, 'createSliderSetting']);
-Route::post('createDisplay', [test::class, 'createDisplay']);
-Route::post('addDisplayToModule', [test::class, 'addDisplayToModule']);
-Route::post('createUser', [test::class, 'createUser']);
-Route::post('createRole', [test::class, 'createRole']);
-Route::get('getRoles', [test::class, 'getRoles']);
-Route::post('addPermissions', [test::class, 'addPermisionsToRole']);
+Route::prefix('test')->group(function(){
+    Route::post('createPage', [test::class, 'createPage']);
+    Route::post('createClass', [test::class, 'createCssClass']);
+    Route::post('createModule', [test::class, 'createModule']);
+    Route::post('addModule', [test::class, 'addModuleToPage']);
+    Route::post('createGrid', [test::class, 'createGridSetting']);
+    Route::post('createSlider', [test::class, 'createSliderSetting']);
+    Route::post('createDisplay', [test::class, 'createDisplay']);
+    Route::post('addDisplayToModule', [test::class, 'addDisplayToModule']);
+    Route::post('createUser', [test::class, 'createUser']);
+    Route::post('createRole', [test::class, 'createRole']);
+    Route::get('getRoles', [test::class, 'getRoles']);
+    Route::post('addPermissions', [test::class, 'addPermisionsToRole']);
+});
 
 
+// Auth routes
+Route::prefix('auth')->group(function (){
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
+    Route::post('me', [AuthController::class, 'me']);
+});
 
-//  Auth routes
-Route::post('login', [AuthController::class, 'login']);
-Route::post('logout', [AuthController::class, 'logout']);
-Route::post('refresh', [AuthController::class, 'refresh']);
-Route::post('me', [AuthController::class, 'me']);
+// Role routes
+Route::prefix('roles')->group(function (){
+    Route::post('create', [RoleController::class, 'createRole']);
+    Route::get('/', [RoleController::class, 'getAllRoles']);
+    Route::patch('/{id}/update',[RoleController::class, 'updatePermissions']);
+    Route::delete('delete/{id}', [RoleController::class, 'deleteRole']);
+});
+
+
 
