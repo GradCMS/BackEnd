@@ -23,14 +23,19 @@ class PermissionRepo implements CRUDRepoInterface
     {
         return Permission::findById($id);
     }
+    public function create($name){
+
+        Permission::create([
+            'name'=>$name,
+            'guard_name' => 'api' // in case multiple guards were used in the future
+        ]);
+    }
 
 /**
  * methods that are not needed to be implemented
  * @throws MethodNotImplementedException
 */
-    public function create($modelDetails){
-        throw new MethodNotImplementedException(__CLASS__, __FUNCTION__);
-    }
+
     public function update($id, $modelDetails){
         throw new MethodNotImplementedException(__CLASS__, __FUNCTION__);
     }
