@@ -12,6 +12,7 @@ use App\Http\Repository\GridSettingRepo;
 use App\Http\Repository\ModuleRepo;
 use App\Http\Repository\PageRepo;
 use App\Http\Repository\SliderSettingRepo;
+use App\Http\Repository\UserRepo;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -45,5 +46,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $registery->register('slider_settings', new SliderSettingRepo());
         $registery->register('role', new RoleRepo());
         $registery->register('permission', new PermissionRepo());
+        $registery->register('user', new UserRepo());
     }
 }

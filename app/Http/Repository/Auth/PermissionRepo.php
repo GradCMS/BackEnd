@@ -23,8 +23,8 @@ class PermissionRepo implements CRUDRepoInterface
     {
         return Permission::findById($id);
     }
-    public function create($name){
-
+    public function create($modelDTO){
+        $name = $modelDTO->getNonFillable()['name'];
         Permission::create([
             'name'=>$name,
             'guard_name' => 'api' // in case multiple guards were used in the future

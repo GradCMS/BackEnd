@@ -1,8 +1,10 @@
 <?php
 namespace App\Http\Services\Auth;
+use App\DTOs\ModelCreationDTO;
 use App\Http\RepoInterfaces\RepoRegisteryInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use Spatie\Permission\Models\Role;
 
 class RoleService{
@@ -18,11 +20,15 @@ class RoleService{
     }
     /**
      * creates a role and return a model instance
-     * @param string $name
+     * @param $roleData
     */
-    public function createRole(String $name)
+    public function createRole($roleData)
     {
-        return $this->roleRepo->create($name);
+        $nonFillableData = Arr::only($roleData, ['name']);
+
+        $roleDTO = new ModelCreationDTO([], $nonFillableData);
+
+        return $this->roleRepo->create($roleDTO);
     }
 
     public function deleteRole($id): void

@@ -2,6 +2,7 @@
 
 namespace App\Http\Repository;
 
+use App\DTOs\ModelCreationDTO;
 use App\Http\RepoInterfaces\CRUDRepoInterface;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
@@ -29,10 +30,19 @@ class UserRepo implements CRUDRepoInterface
         return User::destroy($id);
     }
 
-    public function create($modelDetails)
+    public function create(ModelCreationDTO $modelDTO):User
     {
-        return User::Query()->create($modelDetails);
+        $fillableData = $modelDTO->getFillable();
+        $password = $modelDTO->getNonFillable()['password'];
+        $user = new User();
+        $user->fill($fillableData);
+
+        $user->password = $password;
+
+        $user->save();
+        return $user;
     }
+
 
     public function update($id, $modelDetails)
     {

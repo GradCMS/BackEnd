@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\PermissionController;
 use App\Http\Controllers\Auth\RoleController;
 use App\Http\Controllers\test;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -66,5 +67,8 @@ Route::prefix('permissions')->group(function(){
     Route::get('/',[PermissionController::class, 'getPermissions']);
 });
 
+Route::prefix('users')->group(function(){
+    Route::post('create',[UserController::class, 'createUser']);
+});
 
 

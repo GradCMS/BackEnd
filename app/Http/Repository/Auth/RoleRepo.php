@@ -12,11 +12,12 @@ class RoleRepo implements RoleInterface
 {
 
     /**
-     * @param $name
+     * @param $modelDTO
      * @return Builder|Model|void
      */
-    public function create($name)
+    public function create($modelDTO)
     {
+        $name = $modelDTO->getNonFillable()['name'];
         $role = Role::create([
             'name' => $name,
             'guard_name' => 'api'   // in case multiple guards were used in the future

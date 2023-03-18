@@ -36,23 +36,23 @@ class RoleController extends Controller
 
         try{
             $validatedData = $request->validate([
-                'name'=>'required|unique:roles,name',
+                'name'=>'required|unique:roles,name', // 1 call
                 'permissions' => ['required', 'array'],
-                'permissions.*' => ['exists:permissions,name'], // 1 more call
+                'permissions.*' => ['exists:permissions,name'], // 2  calls
             ]);
         }catch (ValidationException $e){
             return response()->json(['errors' => $e->errors()], 422);
         }
 
-        $roleName = $validatedData['name'];
+        $data = ['name'=>$validatedData['name']];
         $permissions = $validatedData['permissions'];
 
-        $role = $this->roleService->createRole($roleName); // 1 call
-        $this->roleService->updatePermissionsInRole($role->id, $permissions); // 2 calls
+        $role = $this->roleService->createRole($data); // 3 calls
+        $this->roleService->updatePermissionsInRole($role->id, $permissions); // 4 calls
 
         return response()->json([
             'message'=>'Role created successfully',
-            'role'=>$this->roleService->getRolewithPermissions($role->id), // 3 calls
+            'role'=>$this->roleService->getRolewithPermissions($role->id), // 5 calls
         ], 201);
 
     }
