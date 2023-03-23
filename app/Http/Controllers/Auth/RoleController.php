@@ -7,6 +7,7 @@ use App\Http\Services\Auth\RoleService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 //use Illuminate\Validation\ValidationException;
@@ -111,6 +112,7 @@ class RoleController extends Controller
         $validator = Validator::make($request->all() + ['id'=>$roleId],[
             'id' => 'required|integer|exists:roles',
             'permissions' => 'array|nullable',
+            'name'=> Rule::unique('roles', 'name')->ignore($roleId),
             'permissions.*' => 'exists:permissions,name'
         ]);
 

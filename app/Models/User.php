@@ -29,7 +29,8 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
     protected $hidden = [
-        'password'
+        'password',
+        'is_suspended'
     ];
 
     public function getJWTIdentifier()

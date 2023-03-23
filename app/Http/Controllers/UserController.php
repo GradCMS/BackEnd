@@ -7,6 +7,7 @@ use App\Http\Services\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -76,7 +77,14 @@ class UserController extends Controller
         $validator = Validator::make($request->all()+['id' => $userId], [
             'id' => 'required|integer|exists:users',
             'role'=>'nullable|exists:roles,name',
-            'email' => 'email|nullable',
+            'email' => [
+                'email',
+                'nullable',
+                Rule::unique('users', 'email')->ignore($userId)
+            ],
+
+            'user_name'=> Rule::unique('users', 'user_name')->ignore($userId),
+
             'password' => 'min:6|confirmed|nullable',
             // TODO: validate on user_name/email uniqness after updating
         ]);
