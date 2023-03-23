@@ -58,7 +58,7 @@ Route::prefix('auth')->group(function (){
 });
 
 // Role routes
-Route::middleware('auth')->prefix('roles')->group(function (){
+Route::prefix('roles')->group(function (){
 
     Route::post('/', [RoleController::class, 'createRole'])
         ->middleware('permission:create role');
@@ -73,27 +73,29 @@ Route::middleware('auth')->prefix('roles')->group(function (){
 
 });
 
-Route::middleware('auth')->prefix('permissions')->group(function(){
+Route::prefix('permissions')->group(function(){
 
     Route::get('/',[PermissionController::class, 'getPermissions']);
-
 });
 
-Route::middleware('auth')->prefix('users')->group(function(){
+Route::prefix('users')->group(function(){
 
     Route::post('/',[UserController::class, 'createUser'])
         ->middleware('permission:create user');
 
     Route::get('/',[UserController::class, 'getUsers']);
 
-    Route::patch('/{id}',[UserController::class, 'updateUser'])
-        ->middleware('permission:update user');
+    Route::patch('/{id}',[UserController::class, 'updateUser']);
+//        ->middleware('permission:update user');
 
     Route::delete('/{id}',[UserController::class, 'deleteUser'])
         ->middleware('permission:delete user');
 
     Route::patch('/{id}/suspend',[UserController::class, 'suspendUser'])
         ->middleware('permission:suspend user');
+
+    Route::patch('/{id}/unsuspend',[UserController::class, 'unsuspendUser'])
+        ->middleware('permission:unsuspend user');
 
 });
 

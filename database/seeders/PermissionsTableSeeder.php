@@ -32,6 +32,7 @@ class PermissionsTableSeeder extends Seeder
             'update user',
             'delete user',
             'suspend user',
+            'unsuspend user',
             'create role',
             'update role',
             'delete role'

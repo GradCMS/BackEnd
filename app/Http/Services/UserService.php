@@ -53,7 +53,7 @@ class UserService
         // post-processing for DTO
         if(isset($dto->getNonFillable()['password'])){
 
-            $dto->getNonFillable()['password'] = $this->encryptPassword( $dto->getNonFillable()['password']);
+            $dto->nonFillable['password'] = $this->encryptPassword( $dto->getNonFillable()['password']);
         }
 
         return $dto;
@@ -62,6 +62,16 @@ class UserService
     public function encryptPassword($password): string
     {
         return bcrypt($password);
+    }
+
+    public function suspendUser($id): void
+    {
+        $this->userRepo->suspendUser($id);
+    }
+
+    public function unsuspendUser($id):void
+    {
+        $this->userRepo->unsuspendUser($id);
     }
 
 }

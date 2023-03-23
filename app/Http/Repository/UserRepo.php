@@ -4,6 +4,7 @@ namespace App\Http\Repository;
 
 use App\DTOs\ModelDTO;
 use App\Http\RepoInterfaces\CRUDRepoInterface;
+use App\Http\RepoInterfaces\UserRepoInterface;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -14,7 +15,7 @@ use Illuminate\Support\Arr;
  *
  * @mixin Builder
  */
-class UserRepo implements CRUDRepoInterface
+class UserRepo implements UserRepoInterface
 {
 
     public function create(ModelDTO $modelDTO):User
@@ -24,6 +25,7 @@ class UserRepo implements CRUDRepoInterface
         $user = new User();
         $user = $this->fillData($modelDTO, $user);
 
+        $user->is_suspended = false; // default value
         $user->save();
         $this->updateRoles($user, $role);
 
@@ -81,4 +83,27 @@ class UserRepo implements CRUDRepoInterface
     }
 
 
+    /**
+     * @param $id
+     * @return void
+     */
+    public function suspendUser($id):void
+    {
+        $user = User::find($id);
+        $user->is_suspended = true;
+
+        $user->update();
+    }
+
+    /**
+     * @param $id
+     * @return void
+     */
+    public function unsuspendUser($id):void
+    {
+        $user = User::find($id);
+        $user->is_suspended = false;
+
+        $user->update();
+    }
 }

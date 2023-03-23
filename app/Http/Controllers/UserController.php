@@ -105,8 +105,35 @@ class UserController extends Controller
         ]);
     }
 
-    public function suspendUser()
-    { // TODO: implement
+    public function suspendUser($id): JsonResponse
+    {
+        $validator = Validator::make(['id' => $id], [
+            'id' => 'required|integer|exists:users',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+        $this->userService->suspendUser($id);
+
+        return response()->json([
+            'message'=>'User with ID '.$id.' has been suspended successfully',
+        ]);
+
+    }
+
+    public function unsuspendUser($id): JsonResponse
+    {
+        $validator = Validator::make(['id' => $id], [
+            'id' => 'required|integer|exists:users',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+        $this->userService->unsuspendUser($id);
+
+        return response()->json([
+            'message'=>'User with ID '.$id.' has been unsuspended successfully',
+        ]);
 
     }
 

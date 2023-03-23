@@ -4,7 +4,6 @@ namespace App\Http\Repository\Auth;
 
 use App\DTOs\ModelDTO;
 use App\Http\RepoInterfaces\CRUDRepoInterface;
-use App\Http\RepoInterfaces\RoleInterface;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
