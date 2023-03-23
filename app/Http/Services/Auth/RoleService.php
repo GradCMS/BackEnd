@@ -2,6 +2,7 @@
 namespace App\Http\Services\Auth;
 use App\DTOs\ModelCreationDTO;
 use App\Http\RepoInterfaces\RepoRegisteryInterface;
+use App\Traits\DTOBuilder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
@@ -9,6 +10,7 @@ use Spatie\Permission\Models\Role;
 
 class RoleService{
 
+    use DTOBuilder;
     private $roleRepo;
     private $permissionRepo;
     private  $registry;
@@ -24,9 +26,7 @@ class RoleService{
     */
     public function createRole($roleData)
     {
-        $nonFillableData = Arr::only($roleData, ['name']);
-
-        $roleDTO = new ModelCreationDTO([], $nonFillableData);
+        $roleDTO = $this->createDTO($roleData);
 
         return $this->roleRepo->create($roleDTO);
     }
@@ -35,9 +35,11 @@ class RoleService{
     {
          $this->roleRepo->delete($id);
     }
-    public function updatePermissionsInRole($id, $newPermissions): void
+    public function updateRole($id, $data): Role
     {
-        $this->roleRepo->update($id, $newPermissions);
+        $roleDTO = $this->createDTO($data);
+
+        return $this->roleRepo->update($id,$roleDTO);
     }
     public function getRole($id):Role
     {
@@ -47,38 +49,16 @@ class RoleService{
     /**
      * get all roles without related permissions
     */
-    public function getAllRoles():Role
+    public function getAllRoles()
     {
         return $this->roleRepo->getAll();
     }
 
-    /**
-     * get all roles with related permissions
-     */
-    public function getRolesWithPermissions()
+    public function createDTO($data):ModelCreationDTO
     {
-        return $this->roleRepo->getRolesWithPermissions();
-    }
+        $nonFillableKeys = ['name', 'permissions'];
 
-    public function getRolewithPermissions($id)
-    {
-        return $this->roleRepo->getRoleWithPermissions($id);
+        return $this->buildDTO([], $nonFillableKeys, $data);
     }
-
-
-////////////////////////////////
-    public function addPermissionToRole($roleId, $permissionId):void
-    {
-        $role = $this->roleRepo->getById($roleId);
-        $permission =$this->permissionRepo->getById($permissionId);
-        $role->givePermissionTo($permission);
-    }
-    public function revokePermissionFromRole($roleId, $permissionId):void
-    {
-        $role = $this->roleRepo->getById($roleId);
-        $permission =$this->permissionRepo->getById($permissionId);
-        $role->revokePermissionTo($permission);
-    }
-
 
 }

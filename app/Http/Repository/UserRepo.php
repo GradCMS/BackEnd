@@ -17,6 +17,19 @@ use Illuminate\Support\Arr;
 class UserRepo implements CRUDRepoInterface
 {
 
+    public function create(ModelCreationDTO $modelDTO):User
+    { // TODO: save() and addRole() are not in the same transaction [open a transaction and close it for better performance]
+        $role = $modelDTO->getNonFillable()['role'];
+
+        $user = new User();
+        $user = $this->fillData($modelDTO, $user);
+
+        $user->save();
+        $this->updateRoles($user, $role);
+
+        return $user;
+    }
+
     public function getAll():Collection|array
     {
         return User::with('roles')->get();
@@ -32,21 +45,7 @@ class UserRepo implements CRUDRepoInterface
         return User::destroy($id);
     }
 
-    public function create(ModelCreationDTO $modelDTO):User
-    { // TODO: save() and addRole() are not in the same transaction [open a transaction and close it for better performance]
-
-        $role = $modelDTO->getNonFillable()['role'];
-        $user = new User();
-
-        $user = $this->fillData($modelDTO, $user);
-
-        $user->save();
-        $this->addRole($user, $role);
-
-        return $user;
-    }
-
-    public function update($id, ModelCreationDTO $modelDTO)
+    public function update($id, ModelCreationDTO $modelDTO): User
     { // TODO: instead of using update function use the fill method
 
         $user  = User::find($id);
@@ -58,33 +57,25 @@ class UserRepo implements CRUDRepoInterface
         if (isset($modelDTO->getNonFillable()['role']))
         {
             $newRole = $modelDTO->getNonFillable()['role'];
-            $this->updateRoles($id, $newRole);
+            $this->updateRoles($user, $newRole);
         }
         return $user;
     }
-    public function updateRoles($id, $newRole)
+    public function updateRoles(User $user, $newRole)
     {
-        $user = User::find($id);
         $user->syncRoles($newRole);
     }
-    public function addRole(User $user, $role)
-    {
-        $user->assignRole($role);
-    }
+
 
     public function fillData(ModelCreationDTO $modelDTO, User $user): User
     {
         $fillableData = $modelDTO->getFillable();
-
-
         $user->fill($fillableData);
 
         if(isset($modelDTO->getNonFillable()['password']))
         {
             $user->password = $modelDTO->getNonFillable()['password'];
         }
-
-
 
         return $user;
     }

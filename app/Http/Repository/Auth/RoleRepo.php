@@ -2,46 +2,63 @@
 
 namespace App\Http\Repository\Auth;
 
+use App\DTOs\ModelCreationDTO;
+use App\Http\RepoInterfaces\CRUDRepoInterface;
 use App\Http\RepoInterfaces\RoleInterface;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Models\Role;
 
-class RoleRepo implements RoleInterface
+class RoleRepo implements CRUDRepoInterface
 {
 
     /**
      * @param $modelDTO
      * @return Builder|Model|void
      */
-    public function create($modelDTO)
+    public function create(ModelCreationDTO $modelDTO)
     {
-        $name = $modelDTO->getNonFillable()['name'];
-        $role = Role::create([
-            'name' => $name,
-            'guard_name' => 'api'   // in case multiple guards were used in the future
-        ]);
-        if ($role) {
-            return $role;
-        }
+        $permissions = $modelDTO->getNonFillable()['permissions'];
+
+//        $role = Role::create([
+//            'name' => $name,
+//            'guard_name' => 'api'   // in case multiple guards were used in the future
+//        ]);
+
+        $role = new Role();
+
+        $role = $this->fillData($modelDTO, $role);
+
+        $role->save();
+        $this->updatePermissions($role, $permissions);
+
+        return $role;
+
     }
 
     /**
-     * @return Role[]
+     * @return Collection|Role[]
      */
-    public function getAll():array
+    public function getAll(): Collection|array
     {
-        return Role::all();
+        return Role::with('permissions')->get();
     }
 
     /**
      * @param $id
-     * @return Role
+     * @return mixed
      */
-    public function getById($id):Role
+    public function getById($id): mixed
     {
-        return Role::findById($id);
+        return Role::with('permissions')->find($id);
+    }
+
+    public function delete($id)
+    {
+        $role = Role::findById($id);
+        $role->delete();
     }
 
     /**
@@ -50,38 +67,45 @@ class RoleRepo implements RoleInterface
      * permissions are provided by permission names not the actual objects
      * @return void
      */
-    public function update($id,$newPermissions):void
+    public function update($id,ModelCreationDTO $modelDTO):Role
     {
         $role = Role::findById($id);
-        $role->syncPermissions($newPermissions);
-    }
 
+        $role = $this->fillData($modelDTO, $role);
+
+        $role->update();
+
+        if(isset($modelDTO->getNonFillable()['permissions']))
+        {
+            $newPermissions = $modelDTO->getNonFillable()['permissions'];
+            $this->updatePermissions($role, $newPermissions);
+        }
+        return $role;
+    }
     /**
      * @param $id
      *
      */
-    public function delete($id)
+
+
+    public function updatePermissions(Role $role, $permissions)
     {
-        $role = Role::findById($id);
-        $role->delete();
+        $role->syncPermissions($permissions);
     }
 
-    /**
-     * get all roles with related permissions
-     * @return Collection|array
-     */
-    public function getRolesWithPermissions(): Collection|array
-    { // TODO: do I need to define function to eager call and one to get without relationship?
-        return Role::with('permissions')->get();
+    public function fillData(ModelCreationDTO $modelDTO, Role $role): Role
+    {
+
+        $fillableData = $modelDTO->getFillable();
+        $role->fill($fillableData);
+
+        if(isset($modelDTO->getNonFillable()['name']))
+        {
+            $role->name = $modelDTO->getNonFillable()['name'];
+        }
+        $role->guard_name = "api";
+
+        return $role;
     }
 
-    /**
-     * get certain role {id} with related permissions
-     * @param $id
-     * @return mixed
-     */
-    public function getRoleWithPermissions($id):mixed
-    {
-        return Role::with('permissions')->find($id);
-    }
 }

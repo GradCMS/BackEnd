@@ -59,7 +59,7 @@ Route::prefix('auth')->group(function (){
 Route::prefix('roles')->group(function (){
     Route::post('create', [RoleController::class, 'createRole']);
     Route::get('/', [RoleController::class, 'getAllRoles']);
-    Route::patch('/{id}/update',[RoleController::class, 'updatePermissions']);
+    Route::patch('/{id}/update',[RoleController::class, 'updateRole']);
     Route::delete('delete/{id}', [RoleController::class, 'deleteRole']);
 });
 

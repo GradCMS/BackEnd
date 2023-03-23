@@ -34,25 +34,27 @@ class RoleController extends Controller
     public function createRole(Request $request): JsonResponse
     { // TODO: check and try to optimize the number of calls to the database
 
-        try{
-            $validatedData = $request->validate([
-                'name'=>'required|unique:roles,name', // 1 call
-                'permissions' => ['required', 'array'],
-                'permissions.*' => ['exists:permissions,name'], // 2  calls
-            ]);
-        }catch (ValidationException $e){
-            return response()->json(['errors' => $e->errors()], 422);
+        $validator = Validator::make($request->all(), [
+            'name'=>'required|unique:roles,name', // 1 call
+            'permissions' => ['required', 'array'],
+            'permissions.*' => ['exists:permissions,name'], // 2  calls
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $data = ['name'=>$validatedData['name']];
-        $permissions = $validatedData['permissions'];
+
+        $data = [
+          'name'=>$request->input('name'),
+          'permissions'=>$request->input('permissions')
+        ];
 
         $role = $this->roleService->createRole($data); // 3 calls
-        $this->roleService->updatePermissionsInRole($role->id, $permissions); // 4 calls
 
         return response()->json([
             'message'=>'Role created successfully',
-            'role'=>$this->roleService->getRolewithPermissions($role->id), // 5 calls
+            'role'=>$role
         ], 201);
 
     }
@@ -64,7 +66,7 @@ class RoleController extends Controller
     public function getAllRoles():JsonResponse
     { // TODO: use pagination
 
-        $roles = $this->roleService->getRolesWithPermissions();
+        $roles = $this->roleService->getAllRoles();
 
         return response()->json([
            'roles'=>$roles
@@ -80,7 +82,6 @@ class RoleController extends Controller
     public function deleteRole($id):JsonResponse
     {
         // validates the data type of the $id and throw exception if not valid
-
         $validator = Validator::make(['id' => $id], [ // TODO: is this worth validation?
             'id' => 'required|integer|exists:roles'
         ]);
@@ -90,6 +91,7 @@ class RoleController extends Controller
         }
 
         $this->roleService->deleteRole($id);
+
         return response()->json([
                 'message'=>'Role with ID '.$id.' has been deleted successfully'
             ]);
@@ -104,25 +106,34 @@ class RoleController extends Controller
      * @param $roleId
      * @return JsonResponse
      */
-    public function updatePermissions(Request $request, $roleId): JsonResponse
+    public function updateRole(Request $request, $roleId): JsonResponse
     {
         $validator = Validator::make($request->all() + ['id'=>$roleId],[
             'id' => 'required|integer|exists:roles',
-            'permissions' => ['required', 'array'],
-            'permissions.*' => ['exists:permissions,name']
+            'permissions' => 'array|nullable',
+            'permissions.*' => 'exists:permissions,name'
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-        $permissions = $request->input('permissions');
-        $this->roleService->updatePermissionsInRole($roleId, $permissions);
 
-        $newRole = $this->roleService->getRolewithPermissions($roleId);
+        $data =[
+            'name'=>$request->input('name') ?? null,
+            'permissions'=>$request->input('permissions') ?? null
+        ];
+
+        $data = array_filter($data, function($value, $key) { // deletes all the null entries from the array
+            return $value !== null;
+        }, ARRAY_FILTER_USE_BOTH);
+
+        $role = $this->roleService->updateRole($roleId, $data);
+
+//        $newRole = $this->roleService->getRole($roleId); // add it later in case needed {gets the updated role}
 
         return response()->json([
             'message'=>'Role updated successfully',
-            'Role'=>$newRole
+            'Role'=>$role
         ]);
     }
 

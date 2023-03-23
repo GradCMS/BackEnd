@@ -5,12 +5,14 @@ namespace App\Http\Services;
 use App\DTOs\ModelCreationDTO;
 use App\Http\RepoInterfaces\RepoRegisteryInterface;
 use App\Models\User;
+use App\Traits\DTOBuilder;
 use Illuminate\Support\Arr;
 use function Symfony\Component\String\b;
 
 
 class UserService
 {
+    use DTOBuilder;
     private $registry;
     private $userRepo;
     public function __construct(RepoRegisteryInterface $repoRegistery)
@@ -21,7 +23,7 @@ class UserService
 
     public function createUser($userData)
     {
-        $userDTO = $this->DTOBuilder($userData);
+        $userDTO = $this->createDTO($userData);
 
         return $this->userRepo->create($userDTO);
     }
@@ -36,42 +38,25 @@ class UserService
 
     public function updateUser($id, $userData): User
     {
-        $userDTO = $this->DTOBuilder($userData);
+        $userDTO = $this->createDTO($userData);
 
         return $this->userRepo->update($id, $userDTO);
     }
 
-    public function DTOBuilder($userData):ModelCreationDTO
+    public function createDTO($userData):ModelCreationDTO
     {
-        $fillableKeysToCopy = ['user_name', 'email'];
+        $fillableKeys = ['user_name', 'email'];
+        $nonFillableKeys = ['password', 'role'];
 
-        $nonFillableKeysToCopy = ['password', 'role'];
+        $dto = $this->buildDTO($fillableKeys, $nonFillableKeys, $userData);
 
-        $fillableData =[];
-        $nonFillableData = [];
+        // post-processing for DTO
+        if(isset($dto->getNonFillable()['password'])){
 
-        foreach ($fillableKeysToCopy as $key)  // dynamically build the fillable array based on user input
-        {
-            if(isset($userData[$key]))
-            {
-                $fillableData[$key] = $userData[$key];
-            }
+            $dto->getNonFillable()['password'] = $this->encryptPassword( $dto->getNonFillable()['password']);
         }
 
-        foreach ($nonFillableKeysToCopy as $key)
-        {
-            if(isset($userData[$key]))
-            {
-                $nonFillableData[$key] = $userData[$key];
-            }
-        }
-
-        if(isset($nonFillableData['password'])){
-
-            $nonFillableData['password'] = $this->encryptPassword( $nonFillableData['password']);
-        }
-
-        return new ModelCreationDTO($fillableData, $nonFillableData);
+        return $dto;
     }
 
     public function encryptPassword($password): string

@@ -252,7 +252,7 @@ class test extends Controller
             'permissions.*' => ['exists:permissions,name'],
         ]);
         $permissions = $validatedData['permissions'];
-        $this->roleService->updatePermissionsInRole($id, $permissions);
+        $this->roleService->updateRole($id, $permissions);
         return response()->json([
            "message"=>"Permissions added succesfully",
            "permissions"=>$permissions
