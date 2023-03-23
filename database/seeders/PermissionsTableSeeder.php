@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\DTOs\ModelCreationDTO;
+use App\DTOs\ModelDTO;
 use App\Http\RepoInterfaces\RepoRegisteryInterface;
 use Illuminate\Database\Seeder;
 
@@ -14,7 +14,7 @@ class PermissionsTableSeeder extends Seeder
     public function __construct(RepoRegisteryInterface $repoRegistery){
         $this->registry = $repoRegistery->getInstance();
         $this->permissionRepo = $this->registry->get('permission');
-        $this->DTO = new ModelCreationDTO([],[]);
+        $this->DTO = new ModelDTO([],[]);
     }
     /**
      * Run the database seeds.
@@ -28,11 +28,13 @@ class PermissionsTableSeeder extends Seeder
     {
 
         $permissions = [
-            'create posts',
-            'edit posts',
-            'delete posts',
-            'publish posts',
-            'unpublish posts',
+            'create user',
+            'update user',
+            'delete user',
+            'suspend user',
+            'create role',
+            'update role',
+            'delete role'
             // Add more permissions as needed
         ];
         foreach ($permissions as $permission) {

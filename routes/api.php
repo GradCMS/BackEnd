@@ -49,30 +49,51 @@ Route::prefix('test')->group(function(){
 
 // Auth routes
 Route::prefix('auth')->group(function (){
+
     Route::post('login', [AuthController::class, 'login']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::post('me', [AuthController::class, 'me']);
+
 });
 
 // Role routes
-Route::prefix('roles')->group(function (){
-    Route::post('create', [RoleController::class, 'createRole']);
+Route::middleware('auth')->prefix('roles')->group(function (){
+
+    Route::post('/', [RoleController::class, 'createRole'])
+        ->middleware('permission:create role');
+
     Route::get('/', [RoleController::class, 'getAllRoles']);
-    Route::patch('/{id}/update',[RoleController::class, 'updateRole']);
-    Route::delete('delete/{id}', [RoleController::class, 'deleteRole']);
+
+    Route::patch('/{id}',[RoleController::class, 'updateRole'])
+        ->middleware('permission:update role');
+
+    Route::delete('/{id}', [RoleController::class, 'deleteRole'])
+        ->middleware('permission:delete role');
+
 });
 
-Route::prefix('permissions')->group(function(){
+Route::middleware('auth')->prefix('permissions')->group(function(){
+
     Route::get('/',[PermissionController::class, 'getPermissions']);
+
 });
 
-Route::prefix('users')->group(function(){
-    Route::post('create',[UserController::class, 'createUser']);
+Route::middleware('auth')->prefix('users')->group(function(){
+
+    Route::post('/',[UserController::class, 'createUser'])
+        ->middleware('permission:create user');
+
     Route::get('/',[UserController::class, 'getUsers']);
-    Route::patch('/{id}/update',[UserController::class, 'updateUser']);
-    Route::get('delete/{id}',[UserController::class, 'deleteUser']);
-    Route::get('/{id}/suspend',[UserController::class, 'suspendUser']);
+
+    Route::patch('/{id}',[UserController::class, 'updateUser'])
+        ->middleware('permission:update user');
+
+    Route::delete('/{id}',[UserController::class, 'deleteUser'])
+        ->middleware('permission:delete user');
+
+    Route::patch('/{id}/suspend',[UserController::class, 'suspendUser'])
+        ->middleware('permission:suspend user');
 
 });
 

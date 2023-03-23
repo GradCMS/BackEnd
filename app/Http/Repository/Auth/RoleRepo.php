@@ -2,7 +2,7 @@
 
 namespace App\Http\Repository\Auth;
 
-use App\DTOs\ModelCreationDTO;
+use App\DTOs\ModelDTO;
 use App\Http\RepoInterfaces\CRUDRepoInterface;
 use App\Http\RepoInterfaces\RoleInterface;
 use App\Models\User;
@@ -15,10 +15,10 @@ class RoleRepo implements CRUDRepoInterface
 {
 
     /**
-     * @param $modelDTO
-     * @return Builder|Model|void
+     * @param ModelDTO $modelDTO
+     * @return Model
      */
-    public function create(ModelCreationDTO $modelDTO)
+    public function create(ModelDTO $modelDTO): Role
     {
         $permissions = $modelDTO->getNonFillable()['permissions'];
 
@@ -67,7 +67,7 @@ class RoleRepo implements CRUDRepoInterface
      * permissions are provided by permission names not the actual objects
      * @return void
      */
-    public function update($id,ModelCreationDTO $modelDTO):Role
+    public function update($id, ModelDTO $modelDTO):Role
     {
         $role = Role::findById($id);
 
@@ -93,7 +93,7 @@ class RoleRepo implements CRUDRepoInterface
         $role->syncPermissions($permissions);
     }
 
-    public function fillData(ModelCreationDTO $modelDTO, Role $role): Role
+    public function fillData(ModelDTO $modelDTO, Role $role): Role
     {
 
         $fillableData = $modelDTO->getFillable();

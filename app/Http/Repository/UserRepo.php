@@ -2,7 +2,7 @@
 
 namespace App\Http\Repository;
 
-use App\DTOs\ModelCreationDTO;
+use App\DTOs\ModelDTO;
 use App\Http\RepoInterfaces\CRUDRepoInterface;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
@@ -17,7 +17,7 @@ use Illuminate\Support\Arr;
 class UserRepo implements CRUDRepoInterface
 {
 
-    public function create(ModelCreationDTO $modelDTO):User
+    public function create(ModelDTO $modelDTO):User
     { // TODO: save() and addRole() are not in the same transaction [open a transaction and close it for better performance]
         $role = $modelDTO->getNonFillable()['role'];
 
@@ -45,8 +45,8 @@ class UserRepo implements CRUDRepoInterface
         return User::destroy($id);
     }
 
-    public function update($id, ModelCreationDTO $modelDTO): User
-    { // TODO: instead of using update function use the fill method
+    public function update($id, ModelDTO $modelDTO): User
+    {
 
         $user  = User::find($id);
 
@@ -67,7 +67,7 @@ class UserRepo implements CRUDRepoInterface
     }
 
 
-    public function fillData(ModelCreationDTO $modelDTO, User $user): User
+    public function fillData(ModelDTO $modelDTO, User $user): User
     {
         $fillableData = $modelDTO->getFillable();
         $user->fill($fillableData);

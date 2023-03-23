@@ -1,6 +1,6 @@
 <?php
 namespace App\Http\Services\Auth;
-use App\DTOs\ModelCreationDTO;
+use App\DTOs\ModelDTO;
 use App\Http\RepoInterfaces\RepoRegisteryInterface;
 use App\Traits\DTOBuilder;
 use Illuminate\Database\Eloquent\Builder;
@@ -47,14 +47,14 @@ class RoleService{
     }
 
     /**
-     * get all roles without related permissions
+     * get all roles
     */
     public function getAllRoles()
     {
         return $this->roleRepo->getAll();
     }
 
-    public function createDTO($data):ModelCreationDTO
+    public function createDTO($data):ModelDTO
     {
         $nonFillableKeys = ['name', 'permissions'];
 

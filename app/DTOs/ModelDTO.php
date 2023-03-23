@@ -11,7 +11,7 @@ namespace App\DTOs;
  * have non-fillable associative array to individually assign the attribute to the Model instance
  *
  */
-class ModelCreationDTO
+class ModelDTO
 {
 
     /** @var array */

@@ -17,7 +17,7 @@ class UserController extends Controller
     }
 
     public function createUser(Request $request):JsonResponse
-    { // TODO: add Roles when creating the user
+    {
         $validator = Validator::make($request->all(), [
             'user_name' => 'required|unique:users',
             'email' => 'required|email|unique:users',

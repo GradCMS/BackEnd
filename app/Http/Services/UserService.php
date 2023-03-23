@@ -2,7 +2,7 @@
 
 namespace App\Http\Services;
 
-use App\DTOs\ModelCreationDTO;
+use App\DTOs\ModelDTO;
 use App\Http\RepoInterfaces\RepoRegisteryInterface;
 use App\Models\User;
 use App\Traits\DTOBuilder;
@@ -43,7 +43,7 @@ class UserService
         return $this->userRepo->update($id, $userDTO);
     }
 
-    public function createDTO($userData):ModelCreationDTO
+    public function createDTO($userData):ModelDTO
     {
         $fillableKeys = ['user_name', 'email'];
         $nonFillableKeys = ['password', 'role'];

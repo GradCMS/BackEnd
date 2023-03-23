@@ -2,12 +2,12 @@
 
 namespace App\Traits;
 
-use App\DTOs\ModelCreationDTO;
+use App\DTOs\ModelDTO;
 
 trait DTOBuilder
 {
 
-    public function buildDTO($fillableKeysToCopy, $nonFillableKeysToCopy, $data):ModelCreationDTO
+    public function buildDTO($fillableKeysToCopy, $nonFillableKeysToCopy, $data):ModelDTO
     {
         $fillableData = [];
         $nonFillableData = [];
@@ -27,7 +27,7 @@ trait DTOBuilder
                 $nonFillableData[$key] = $data[$key];
             }
         }
-        return new ModelCreationDTO($fillableData, $nonFillableData);
+        return new ModelDTO($fillableData, $nonFillableData);
     }
 
 }
