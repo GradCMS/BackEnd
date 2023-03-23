@@ -42,6 +42,7 @@ class UserRepo implements CRUDRepoInterface
 
         $user->save();
         $this->addRole($user, $role);
+
         return $user;
     }
 
