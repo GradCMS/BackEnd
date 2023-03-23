@@ -23,12 +23,15 @@ class PermissionRepo implements CRUDRepoInterface
     {
         return Permission::findById($id);
     }
-    public function create($modelDTO){
+    public function create($modelDTO)
+    {
+
         $name = $modelDTO->getNonFillable()['name'];
         Permission::create([
             'name'=>$name,
             'guard_name' => 'api' // in case multiple guards were used in the future
         ]);
+
     }
 
 /**
@@ -36,10 +39,12 @@ class PermissionRepo implements CRUDRepoInterface
  * @throws MethodNotImplementedException
 */
 
-    public function update($id, $modelDetails){
+    public function update($id, $modelDetails)
+    {
         throw new MethodNotImplementedException(__CLASS__, __FUNCTION__);
     }
-    public function delete($id){
+    public function delete($id)
+    {
         throw new MethodNotImplementedException(__CLASS__, __FUNCTION__);
     }
 }

@@ -71,7 +71,7 @@ class RoleRepo implements RoleInterface
      * @return Collection|array
      */
     public function getRolesWithPermissions(): Collection|array
-    {
+    { // TODO: do i need to define function to eager call and one to get without relationship?
         return Role::with('permissions')->get();
     }
 

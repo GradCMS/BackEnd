@@ -3,8 +3,6 @@
 namespace App\DTOs;
 
 
-
-
 /**
  * This DTO should be used when a Model instance is created
  *

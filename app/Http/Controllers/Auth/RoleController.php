@@ -81,7 +81,7 @@ class RoleController extends Controller
     {
         // validates the data type of the $id and throw exception if not valid
 
-        $validator = Validator::make(['id' => $id], [
+        $validator = Validator::make(['id' => $id], [ // TODO: is this worth validation?
             'id' => 'required|integer|exists:roles'
         ]);
 
@@ -117,6 +117,7 @@ class RoleController extends Controller
         }
         $permissions = $request->input('permissions');
         $this->roleService->updatePermissionsInRole($roleId, $permissions);
+
         $newRole = $this->roleService->getRolewithPermissions($roleId);
 
         return response()->json([

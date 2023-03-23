@@ -69,6 +69,11 @@ Route::prefix('permissions')->group(function(){
 
 Route::prefix('users')->group(function(){
     Route::post('create',[UserController::class, 'createUser']);
+    Route::get('/',[UserController::class, 'getUsers']);
+    Route::patch('/{id}/update',[UserController::class, 'updateUser']);
+    Route::get('delete/{id}',[UserController::class, 'deleteUser']);
+    Route::get('/{id}/suspend',[UserController::class, 'suspendUser']);
+
 });
 
 
