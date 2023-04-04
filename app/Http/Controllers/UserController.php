@@ -61,6 +61,13 @@ class UserController extends Controller
             'suspended users'=>$users
         ]);
     }
+    public function getUsersCount():JsonResponse
+    {
+        $count = $this->userService->getUsersCount();
+        return response()->json([
+            'count'=>$count
+        ]);
+    }
 
     public function deleteUser($id):JsonResponse
     {

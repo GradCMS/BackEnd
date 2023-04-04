@@ -92,6 +92,8 @@ Route::prefix('users')->group(function(){
 
     Route::get('/',[UserController::class, 'getUsers']);
 
+    Route::get('/count',[UserController::class, 'getUsersCount']);
+
     Route::get('/suspended',[UserController::class, 'getSuspendedUsers']);
 
     Route::patch('/{id}',[UserController::class, 'updateUser']);

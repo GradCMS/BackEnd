@@ -115,4 +115,12 @@ class UserRepo implements UserRepoInterface
     {
         return User::whereIsSuspended(true)->get();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUsersCount(): mixed
+    {
+        return User::count();
+    }
 }
