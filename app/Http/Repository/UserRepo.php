@@ -27,6 +27,7 @@ class UserRepo implements UserRepoInterface
 
         $user->is_suspended = false; // default value
         $user->save();
+
         $this->updateRoles($user, $role);
 
         return $user;
@@ -105,5 +106,13 @@ class UserRepo implements UserRepoInterface
         $user->is_suspended = false;
 
         $user->update();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSuspendedUsers(): mixed
+    {
+        return User::whereIsSuspended(true)->get();
     }
 }

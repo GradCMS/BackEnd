@@ -266,8 +266,31 @@ class test extends Controller
 
     public function getPageModules($id):JsonResponse
     {
-        $page = Page::with('modules')->find($id);
+        $page = Page::with(['modules' => function ($query) {
+            $query->select()
+                ->withPivot('priority');
+        }])->find($id);
+
+        $page->modules->each(function ($module) {
+            $module->makeHidden(['pivot', 'page_id', 'module_id']);
+        });
+
         return response()->json(["page"=>$page]);
+    }
+
+    public function getModules(): JsonResponse
+    {
+//        $modules = Module::all();
+//        $modules = Module::with('cssClass')->get();
+          $modules = Module::with(['cssClass', 'displays'])->get();
+        return response()->json(["modules"=>$modules]);
+    }
+
+    public function test123()
+    {
+        $page = Page::find(1);
+        $page->modules()->updateExistingPivot(3, ['priority'=> 3]);
+        return response()->json(['msg'=>'ok']);
     }
 
 

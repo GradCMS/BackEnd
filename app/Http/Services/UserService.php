@@ -6,8 +6,6 @@ use App\DTOs\ModelDTO;
 use App\Http\RepoInterfaces\RepoRegisteryInterface;
 use App\Models\User;
 use App\Traits\DTOBuilder;
-use Illuminate\Support\Arr;
-use function Symfony\Component\String\b;
 
 
 class UserService
@@ -45,7 +43,9 @@ class UserService
 
     public function createDTO($userData):ModelDTO
     {
-        $fillableKeys = ['user_name', 'email'];
+//        $fillableKeys = ['user_name', 'email'];
+
+        $fillableKeys = (new User)->getFillable();
         $nonFillableKeys = ['password', 'role'];
 
         $dto = $this->buildDTO($fillableKeys, $nonFillableKeys, $userData);
@@ -72,6 +72,10 @@ class UserService
     public function unsuspendUser($id):void
     {
         $this->userRepo->unsuspendUser($id);
+    }
+    public function getSuspendedUsers()
+    {
+        return $this->userRepo->getSuspendedUsers();
     }
 
 }

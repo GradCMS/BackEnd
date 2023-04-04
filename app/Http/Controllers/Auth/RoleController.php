@@ -74,6 +74,10 @@ class RoleController extends Controller
         ]);
     }
 
+    // roles = getAllRoles();
+
+    // roles  = makeApiRequest(GET, LocalHost:8000/api/roles);
+
     /**
      * delete a certain role
      * here the Validator facade is used directly because there isn't a Request object to use the helper function

@@ -20,7 +20,7 @@ class CreatePagesTable extends BaseMigration
             $table->id();
             $table->string('type');
             $table->string('title');
-            $table->string('sub_title');
+            $table->string('sub_title'); // TODO: remove
             $table->string('url');
             $table->text('tags');
             $table->text('short_description');

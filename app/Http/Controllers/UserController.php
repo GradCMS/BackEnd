@@ -54,6 +54,14 @@ class UserController extends Controller
         ]);
     }
 
+    public function getSuspendedUsers():JsonResponse
+    {
+        $users = $this->userService->getSuspendedUsers();
+        return response()->json([
+            'suspended users'=>$users
+        ]);
+    }
+
     public function deleteUser($id):JsonResponse
     {
         $validator = Validator::make(['id' => $id], [ // TODO: is this worth validation?
