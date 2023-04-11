@@ -19,7 +19,7 @@ class CssClassService
     }
     public function createCssClass($cssClass)
     {
-        return $this->cssClassRepo->create($cssClass->toArray());
+        return $this->cssClassRepo->create($cssClass);
     }
     public function getCssClass($id)
     {
