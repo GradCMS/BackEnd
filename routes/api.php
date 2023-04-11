@@ -51,6 +51,9 @@ Route::prefix('test')->group(function(){
 
     Route::get('test123', [test::class, 'test123']);
 
+    Route::get('getCssClass/{id}', [test::class,'getCssClass']);
+
+    Route::get('getCssClasses',[test::class,'getCssClasses']);
 });
 
 

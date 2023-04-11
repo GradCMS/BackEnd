@@ -293,5 +293,17 @@ class test extends Controller
         return response()->json(['msg'=>'ok']);
     }
 
+    public function getCssClass($id): JsonResponse
+    {
+        $cssClas = CssClass::Query()->findOrFail($id);
+        return response()->json(["CssClass"=>$cssClas]);
+    }
+
+    public function getCssClasses() :JsonResponse
+    {
+        $cssClasses = CssClass::all();
+        return response()->json(["cssClasses"=>$cssClasses]);
+    }
+
 
 }
