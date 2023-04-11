@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\PermissionController;
 use App\Http\Controllers\Auth\RoleController;
+use App\Http\Controllers\CssClassController;
 use App\Http\Controllers\test;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -55,6 +56,20 @@ Route::prefix('test')->group(function(){
 
     Route::get('getCssClasses',[test::class,'getCssClasses']);
 });
+
+// Css Class
+
+Route::prefix('cssClass')->group(function (){
+
+    Route::get('getCssClass/{id}', [CssClassController::class,'getCssClass']);
+
+    Route::get('getCssClasses',[CssClassController::class,'getCssClasses']);
+
+    Route::post('createCssClass',[CssClassController::class,'createCssClass']);
+
+});
+
+
 
 
 // Auth routes

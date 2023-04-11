@@ -2,18 +2,22 @@
 
 namespace App\Http\Services;
 
-use App\Http\RepoInterfaces\CRUDRepoInterface;
+use App\Http\RepoInterfaces\RepoRegisteryInterface;
 use App\Models\CssClass;
+
 
 class CssClassService
 {
     private $cssClassRepo;
 
-    public function __construct(CRUDRepoInterface $cssClassRepo)
+    private $registry;
+
+    public function __construct(RepoRegisteryInterface $cssClassRepoRegistry)
     {
-        $this->cssClassRepo = $cssClassRepo;
+        $this->registry = $cssClassRepoRegistry->getInstance();
+        $this->cssClassRepo = $this->registry->get('css_class');
     }
-    public function addCssClass(CssClass $cssClass)
+    public function createCssClass($cssClass)
     {
         return $this->cssClassRepo->create($cssClass->toArray());
     }
