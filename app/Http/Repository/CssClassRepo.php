@@ -2,8 +2,10 @@
 
 namespace App\Http\Repository;
 
+use App\DTOs\ModelDTO;
 use App\Http\RepoInterfaces\CRUDRepoInterface;
 use App\Models\CssClass;
+use App\Models\User;
 
 class CssClassRepo implements CRUDRepoInterface
 {
@@ -44,8 +46,24 @@ class CssClassRepo implements CRUDRepoInterface
         return CssClass::destroy($id);
     }
 
-    public function update($id,$modelDetails)
+    public function update($id,ModelDTO $modelDetails): CssClass
     {
-        return CssClass::Query()->where($id)->update($modelDetails);
+        $cssClass = CssClass::findOrFail($id);
+
+        $cssClass = $this->fillData($modelDetails, $cssClass);
+
+        $cssClass->update();
+
+        return $cssClass;
+
+    }
+
+    public function fillData($modelDTO, CssClass $cssClass): CssClass
+    {
+        $fillableData = $modelDTO->getFillable();
+
+        $cssClass->fill($fillableData);
+
+        return $cssClass;
     }
 }

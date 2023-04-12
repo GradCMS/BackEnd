@@ -61,15 +61,15 @@ Route::prefix('test')->group(function(){
 
 Route::prefix('cssClass')->group(function (){
 
-    Route::get('getCssClass/{id}', [CssClassController::class,'getCssClass']);
+    Route::get('/{id}', [CssClassController::class,'getCssClass']);
 
-    Route::get('getCssClasses',[CssClassController::class,'getCssClasses']);
+    Route::get('/',[CssClassController::class,'getCssClasses']);
 
-    Route::post('createCssClass',[CssClassController::class,'createCssClass']);
+    Route::post('/',[CssClassController::class,'createCssClass']);
 
-    Route::delete('deleteCssClass/{id}',[CssClassController::class,'deleteCssClass']);
+    Route::delete('/{id}',[CssClassController::class,'deleteCssClass']);
 
-    Route::patch('updateCssClass/{id}',[CssClassController::class,'updateCssClass']);
+    Route::patch('/{id}',[CssClassController::class,'updateCssClass']);
 
 });
 

@@ -17,6 +17,9 @@ class CssClass extends Model
         'css',
         'custom_css'
     ];
+
+
+
     public function modules(): HasMany //CSS class might exist in many modules
     {
         return $this->hasMany(Module::class);

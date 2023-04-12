@@ -2,12 +2,15 @@
 
 namespace App\Http\Services;
 
+use App\DTOs\ModelDTO;
 use App\Http\RepoInterfaces\RepoRegisteryInterface;
 use App\Models\CssClass;
-
+use App\Models\User;
+use App\Traits\DTOBuilder;
 
 class CssClassService
 {
+    use DTOBuilder;
     private $cssClassRepo;
 
     private $registry;
@@ -33,8 +36,21 @@ class CssClassService
     {
         return $this->cssClassRepo->delete($id);
     }
-    public function updateCssClass($id, CssClass $cssClass): int
+    public function updateCssClass($id, $cssClass): CssClass
     {
-        return $this->cssClassRepo->update($id, $cssClass->toArray());
+        $cssClassDTO = $this->createDTO($cssClass);
+
+        return $this->cssClassRepo->update($id, $cssClassDTO);
+    }
+    public function createDTO($userData):ModelDTO
+    {
+
+        $fillableKeys = (new CssClass())->getFillable();
+
+        $nonFillableKeys = ['id'];
+
+        $dto = $this->buildDTO($fillableKeys, $nonFillableKeys, $userData);
+
+        return $dto;
     }
 }
