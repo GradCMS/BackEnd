@@ -67,6 +67,10 @@ Route::prefix('cssClass')->group(function (){
 
     Route::post('createCssClass',[CssClassController::class,'createCssClass']);
 
+    Route::delete('deleteCssClass/{id}',[CssClassController::class,'deleteCssClass']);
+
+    Route::patch('updateCssClass/{id}',[CssClassController::class,'updateCssClass']);
+
 });
 
 
