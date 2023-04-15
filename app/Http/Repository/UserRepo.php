@@ -48,18 +48,18 @@ class UserRepo implements UserRepoInterface
         return User::destroy($id);
     }
 
-    public function update($id, ModelDTO $modelDTO): User
+    public function update($id, ModelDTO|array $newData): User
     {
 
         $user  = User::find($id);
 
-        $user = $this->fillData($modelDTO, $user);
+        $user = $this->fillData($newData, $user);
 
         $user->update();
 
-        if (isset($modelDTO->getNonFillable()['role']))
+        if (isset($newData->getNonFillable()['role']))
         {
-            $newRole = $modelDTO->getNonFillable()['role'];
+            $newRole = $newData->getNonFillable()['role'];
             $this->updateRoles($user, $newRole);
         }
         return $user;

@@ -2,34 +2,59 @@
 
 namespace App\Http\Services;
 
+use App\DTOs\ModelDTO;
 use App\Http\RepoInterfaces\CRUDRepoInterface;
+use App\Http\RepoInterfaces\RepoRegisteryInterface;
 use App\Models\Page;
+use App\Traits\DTOBuilder;
 
 class PageService{
-    private $pageRepo;  // dependency injection
-    public function __construct(CRUDRepoInterface $pageRepo) // inject PageRepo or CRUDRepoInterface
+
+    use DTOBuilder;
+    private $registry;
+    private $pageRepo;
+    public function __construct(RepoRegisteryInterface $repoRegistery)
     {
-        $this->pageRepo = $pageRepo;
+        $this->registry = $repoRegistery->getInstance();
+        $this->pageRepo = $this->registry->get('page');
     }
-    public function addPage(Page $page)
+    public function createPage($pageData)
     {
-        return $this->pageRepo->create($page->toArray());
+        $pageDTO = $this->createDTO($pageData);
+
+        return $this->pageRepo->create($pageDTO);
     }
-    public function getPage($id)
+
+    public function createDTO($pageData): ModelDTO
+    {
+        $fillableKeys = (new Page)->getFillable();
+        return $this->buildDTO($fillableKeys, [], $pageData);
+    }
+    public function getPagesTree()
+    {
+        return $this->pageRepo->getPagesTree();
+
+    }
+
+    public function updatePage($id, array $pageData): void
+    {
+        $this->pageRepo->update($id, $pageData);
+    }
+
+    public function getAllPages()
+    {
+       return $this->pageRepo->getAll();
+    }
+
+    public function getPageById($id)
     {
         return $this->pageRepo->getById($id);
     }
-    public function getPages()
+
+    public function deletePage($id): void
     {
-        return $this->pageRepo->getAll();
+        $this->pageRepo->delete($id);
     }
-    public function deletePage($id): int
-    {
-        return $this->pageRepo->delete($id);
-    }
-    public function updatePage($id, Page $page): int
-    {
-        return $this->pageRepo->update($id, $page->toArray());
-    }
+
 
 }

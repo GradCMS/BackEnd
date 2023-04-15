@@ -2,34 +2,121 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\RepoInterfaces\CRUDRepoInterface;
+use App\Http\Services\PageService;
 use App\Models\Page;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PageController extends Controller // controllers handles all the requests
 {
-    private $pageRepo;
-    public function __construct(CRUDRepoInterface $CRUDRepo)
+    private $pageService;
+    public function __construct(PageService $pageService)
     {
 
-        $this->pageRepo = $CRUDRepo;
+        $this->pageService = $pageService;
     }
-    public function getPage($id=null)  // GET
+
+    public function createPage(Request $request):JsonResponse
     {
-        return $id?$this->pageRepo->getById($id):$this->pageRepo->getAll();
+        $validator = Validator::make($request->all(),[
+            'hidden'=> 'boolean',
+            'parent_id'=>'exists:pages,id'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $pageData = [
+            'type'=>$request->input('type'),
+            'title'=>$request->input('title'),
+            'sub_title'=>$request->input('sub_title'),
+            'url'=>$request->input('url'),
+            'tags'=>$request->input('tags'),
+            'short_description'=>$request->input('short_description'),
+            'header_image_url'=>$request->input('header_image_url'),
+            'cover_image_url'=>$request->input('cover_image_url'),
+            'hidden'=>$request->input('hidden'),
+            'parent_id'=>$request->input('parent_id')
+        ];
+        $page = $this->pageService->createPage($pageData);
+
+        return response()->json([
+            'message'=>'Page has been created successfully',
+            'page'=>$page
+        ], 201);
     }
-    public function addPage(Page $page) // POST
+
+    public function getPagesTree():JsonResponse
     {
-        // handle the request object
-        return $this->pageRepo->create($page->toArray());
+        $tree = $this->pageService->getPagesTree();
+
+        return response()->json([
+           'tree'=>$tree
+        ]);
     }
-    public function deletePage($id): int  // POST or DELETE
+    public function getAllPages():JsonResponse
     {
-        return $this->pageRepo->delete($id);
+        $pages = $this->pageService->getAllPages();
+
+        return response()->json([
+            'pages'=>$pages
+        ]);
     }
-    public function updatePage($id, Page $page): int  //POST
+    public function getPageById($id):JsonResponse
     {
-        // handle request
-        return $this->pageRepo->update($id, $page->toArray());
+        $validator = Validator::make(['id' => $id], [
+            'id' => 'required|integer|exists:pages',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $page = $this->pageService->getPageById($id);
+
+        return response()->json([
+           'page'=>$page
+        ]);
+    }
+
+    public function deletePage($id):JsonResponse
+    {
+        $validator = Validator::make(['id' => $id], [
+            'id' => 'required|integer|exists:pages'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+        $this->pageService->deletePage($id);
+
+        return response()->json([
+            'message'=>'Page with ID '.$id.' has been deleted successfully'
+        ]);
+    }
+
+    public function updatePage(Request $request, $pageID):JsonResponse
+    {
+        //TODO: what if user wants to update an entry to null
+
+        $validator = Validator::make(['id' => $pageID], [
+            'id' => 'required|integer|exists:pages'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $pageData = $request->all();
+
+        $this->pageService->updatePage($pageID, $pageData);
+
+
+        return response()->json([
+            'message'=>'Page with ID '.$pageID.' has been updated successfully',
+            'updated_Page'=>Page::find($pageID)
+        ]);
     }
 
 }

@@ -22,7 +22,8 @@ protected $fillable = [
     'short_description',
     'header_image_url',
     'cover_image_url',
-    'hidden'
+    'hidden',
+    'parent_id'
 ];
 
     public function parent(): BelongsTo  // a page can have 1 parent

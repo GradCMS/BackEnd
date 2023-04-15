@@ -265,7 +265,7 @@ class test extends Controller
     }
 
     public function getPageModules($id):JsonResponse
-    {
+    {  // DONE!
         $page = Page::with(['modules' => function ($query) {
             $query->select()
                 ->withPivot('priority');
@@ -287,7 +287,7 @@ class test extends Controller
     }
 
     public function test123()
-    {
+    { // TODO
         $page = Page::find(1);
         $page->modules()->updateExistingPivot(3, ['priority'=> 3]);
         return response()->json(['msg'=>'ok']);

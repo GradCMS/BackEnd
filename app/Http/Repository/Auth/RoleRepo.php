@@ -66,17 +66,17 @@ class RoleRepo implements CRUDRepoInterface
      * permissions are provided by permission names not the actual objects
      * @return void
      */
-    public function update($id, ModelDTO $modelDTO):Role
+    public function update($id, ModelDTO|array $newData):Role
     {
         $role = Role::findById($id);
 
-        $role = $this->fillData($modelDTO, $role);
+        $role = $this->fillData($newData, $role);
 
         $role->update();
 
-        if(isset($modelDTO->getNonFillable()['permissions']))
+        if(isset($newData->getNonFillable()['permissions']))
         {
-            $newPermissions = $modelDTO->getNonFillable()['permissions'];
+            $newPermissions = $newData->getNonFillable()['permissions'];
             $this->updatePermissions($role, $newPermissions);
         }
         return $role;

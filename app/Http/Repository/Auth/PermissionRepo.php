@@ -39,7 +39,7 @@ class PermissionRepo implements CRUDRepoInterface
  * @throws MethodNotImplementedException
 */
 
-    public function update($id, $modelDetails)
+    public function update($id, $newData)
     {
         throw new MethodNotImplementedException(__CLASS__, __FUNCTION__);
     }

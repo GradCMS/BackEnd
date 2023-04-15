@@ -28,13 +28,13 @@ class GridSettingRepo implements CRUDRepoInterface
         return GridSetting::destroy($id);
     }
 
-    public function create($modelDetails)
+    public function create($modelDTO)
     {
-        return GridSetting::Query()->create($modelDetails);
+        return GridSetting::Query()->create($modelDTO);
     }
 
-    public function update($id, $modelDetails)
+    public function update($id, $newData)
     {
-        return GridSetting::Query()->where($id)->update($modelDetails);
+        return GridSetting::Query()->where($id)->update($newData);
     }
 }

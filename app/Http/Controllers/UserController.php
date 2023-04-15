@@ -88,7 +88,6 @@ class UserController extends Controller
 
     public function updateUser(Request $request, $userId):JsonResponse
     {
-
         $validator = Validator::make($request->all()+['id' => $userId], [
             'id' => 'required|integer|exists:users',
             'role'=>'nullable|exists:roles,name',

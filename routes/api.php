@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\PermissionController;
 use App\Http\Controllers\Auth\RoleController;
 use App\Http\Controllers\CssClassController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\test;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -129,6 +130,22 @@ Route::prefix('users')->group(function(){
 
     Route::patch('/{id}/unsuspend',[UserController::class, 'unsuspendUser']);
 //        ->middleware('permission:unsuspend user');
+
+});
+
+Route::prefix('pages')->group(function(){
+
+    Route::post('/',[PageController::class, 'createPage']);
+
+    Route::get('/', [PageController::class, 'getAllPages']);
+
+    Route::get('/tree', [PageController::class, 'getPagesTree']);
+
+    Route::get('/{id}', [PageController::class, 'getPageById']);
+
+    Route::delete('/{id}', [PageController::class, 'deletePage']);
+
+    Route::patch('/{id}',[PageController::class, 'updatePage']);
 
 });
 

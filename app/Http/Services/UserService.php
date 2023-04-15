@@ -45,7 +45,7 @@ class UserService
     {
 //        $fillableKeys = ['user_name', 'email'];
 
-        $fillableKeys = (new User)->getFillable();
+        $fillableKeys = (new User)->getFillable();  // related to model
         $nonFillableKeys = ['password', 'role'];
 
         $dto = $this->buildDTO($fillableKeys, $nonFillableKeys, $userData);

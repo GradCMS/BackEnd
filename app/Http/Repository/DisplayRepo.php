@@ -10,12 +10,12 @@ class DisplayRepo implements CRUDRepoInterface
 
 
     /**
-     * @param array $modelDetails
+     * @param array $modelDTO
      * @return mixed
      */
-    public function create($modelDetails)
+    public function create($modelDTO)
     {
-        return Display::Query()->create($modelDetails);
+        return Display::Query()->create($modelDTO);
     }
 
     /**
@@ -45,8 +45,8 @@ class DisplayRepo implements CRUDRepoInterface
     }
 
 
-    public function update($id, $modelDetails)
+    public function update($id, $newData)
     {
-        return Display::Query()->where($id)->update($modelDetails);
+        return Display::Query()->where($id)->update($newData);
     }
 }

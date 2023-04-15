@@ -12,12 +12,12 @@ class CssClassRepo implements CRUDRepoInterface
 
 
     /**
-     * @param array $modelDetails
+     * @param array $modelDTO
      * @return mixed
      */
-    public function create($modelDetails)
+    public function create($modelDTO): mixed
     {
-        return CssClass::Query()->create($modelDetails);
+        return CssClass::Query()->create($modelDTO);
     }
 
     /**
@@ -46,7 +46,7 @@ class CssClassRepo implements CRUDRepoInterface
         return CssClass::destroy($id);
     }
 
-    public function update($id,ModelDTO $modelDetails): CssClass
+    public function update($id,ModelDTO|array $modelDetails): CssClass
     {
         $cssClass = CssClass::findOrFail($id);
 
