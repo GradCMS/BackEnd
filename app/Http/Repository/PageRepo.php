@@ -105,5 +105,10 @@ class PageRepo implements PageRepoInterface
         return $result;
     }
 
+    public function syncModulesInPage($pageId, $modules)
+    {
+        $page = Page::find($pageId);
 
+        $page->modules()->sync($modules);
+    }
 }

@@ -119,4 +119,28 @@ class PageController extends Controller // controllers handles all the requests
         ]);
     }
 
+    public function syncModules(Request $request): JsonResponse
+    {
+        $validator = Validator::make($request->all(),[
+            'page_id'=> 'integer|exists:pages,id',
+            'modules'=>'array',
+            'modules.*.id'=>'exists:modules,id',
+            'modules.*.priority'=>'integer'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $pageID = $request->input('page_id');
+        $modules = $request->input('modules');
+
+
+        $this->pageService->syncModules($pageID, $modules);
+
+        return response()->json(['message' => 'Modules synced successfully.']);
+
+
+    }
+
 }

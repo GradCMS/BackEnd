@@ -137,6 +137,8 @@ Route::prefix('pages')->group(function(){
 
     Route::post('/',[PageController::class, 'createPage']);
 
+    Route::post('/modules', [PageController::class, 'syncModules']);
+
     Route::get('/', [PageController::class, 'getAllPages']);
 
     Route::get('/tree', [PageController::class, 'getPagesTree']);

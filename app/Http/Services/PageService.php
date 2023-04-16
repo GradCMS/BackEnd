@@ -56,5 +56,18 @@ class PageService{
         $this->pageRepo->delete($id);
     }
 
+    public function syncModules($pageID, $modules): void
+    {
+        $moduleArray=[];
+
+        foreach ($modules as $moduleData)
+        {
+            $moduleArray[$moduleData['id']] = ['priority' => $moduleData['priority']];
+        }
+
+        $this->pageRepo->syncModulesInPage($pageID, $moduleArray);
+
+    }
+
 
 }
