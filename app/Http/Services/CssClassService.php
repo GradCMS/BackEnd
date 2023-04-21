@@ -5,7 +5,6 @@ namespace App\Http\Services;
 use App\DTOs\ModelDTO;
 use App\Http\RepoInterfaces\RepoRegisteryInterface;
 use App\Models\CssClass;
-use App\Models\User;
 use App\Traits\DTOBuilder;
 
 class CssClassService

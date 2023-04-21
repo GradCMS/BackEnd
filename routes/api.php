@@ -8,6 +8,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\test;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ModuleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,7 +75,21 @@ Route::prefix('cssClass')->group(function (){
 
 });
 
+// Module
 
+Route::prefix('module')->group(function (){
+
+    Route::get('/{id}', [ModuleController::class,'getModule']);
+
+    Route::get('/',[ModuleController::class,'getModules']);
+
+    Route::post('/',[ModuleController::class,'createModule']);
+
+    Route::delete('/{id}',[ModuleController::class,'deleteModule']);
+
+    Route::patch('/{id}',[ModuleController::class,'updateModule']);
+
+});
 
 
 // Auth routes
