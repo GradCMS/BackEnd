@@ -51,5 +51,6 @@ class CssClassService
         $dto = $this->buildDTO($fillableKeys, $nonFillableKeys, $userData);
 
         return $dto;
+
     }
 }
