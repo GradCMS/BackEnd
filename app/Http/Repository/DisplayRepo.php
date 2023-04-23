@@ -2,6 +2,7 @@
 
 namespace App\Http\Repository;
 
+use App\DTOs\ModelDTO;
 use App\Http\RepoInterfaces\CRUDRepoInterface;
 use App\Models\Display;
 
@@ -45,8 +46,23 @@ class DisplayRepo implements CRUDRepoInterface
     }
 
 
-    public function update($id, $newData)
+    public function update($id, ModelDTO|array $modelDetails):Display
     {
-        return Display::Query()->where($id)->update($newData);
+        $display = Display::findOrFail($id);
+
+        $display =$this->fillData($modelDetails,$display);
+
+        $display->update();
+
+        return $display;
+    }
+
+    public function fillData($modelDTO, Display $display): Display
+    {
+        $fillableData = $modelDTO->getFillable();
+
+        $display->fill($fillableData);
+
+        return $display;
     }
 }
