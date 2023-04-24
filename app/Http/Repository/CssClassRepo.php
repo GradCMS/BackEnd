@@ -5,7 +5,6 @@ namespace App\Http\Repository;
 use App\DTOs\ModelDTO;
 use App\Http\RepoInterfaces\CRUDRepoInterface;
 use App\Models\CssClass;
-use App\Models\User;
 
 class CssClassRepo implements CRUDRepoInterface
 {

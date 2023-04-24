@@ -2,20 +2,28 @@
 
 namespace App\Http\Services;
 
+use App\DTOs\ModelDTO;
 use App\Http\RepoInterfaces\CRUDRepoInterface;
+use App\Http\RepoInterfaces\RepoRegisteryInterface;
 use App\Models\Display;
+use App\Traits\DTOBuilder;
 
 class DisplayService
 {
+    use DTOBuilder;
     private $displayRepo;
 
-    public function __construct(CRUDRepoInterface $displayRepo)
+    private $registry;
+
+
+    public function __construct(RepoRegisteryInterface $displayRepoRegistery)
     {
-        $this->displayRepo = $displayRepo;
+        $this->registry = $displayRepoRegistery->getInstance();
+        $this->displayRepo = $this->registry->get('display');
     }
-    public function addDisplay(Display $display)
+    public function createDisplay( $display)
     {
-        return $this->displayRepo->create($display->toArray());
+        return $this->displayRepo->create($display);
     }
     public function getDisplay($id)
     {
@@ -29,9 +37,21 @@ class DisplayService
     {
         return $this->displayRepo->delete($id);
     }
-    public function updateDisplay($id, Display $display): int
+    public function updateDisplay($id, $display): Display
     {
-        return $this->displayRepo->update($id, $display->toArray());
-    }
+        $displayDTO = $this->createDTO($display);
 
+        return $this->displayRepo->update($id, $displayDTO);
+    }
+    public function createDTO($userData):ModelDTO
+    {
+        $fillableKeys = (new Display())->getFillable();
+
+        $nonFillableKeys = ['id'];
+
+        $dto = $this->buildDTO($fillableKeys, $nonFillableKeys, $userData);
+
+        return $dto;
+
+    }
 }

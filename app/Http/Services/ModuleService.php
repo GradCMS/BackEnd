@@ -2,20 +2,28 @@
 
 namespace App\Http\Services;
 
-use App\Http\RepoInterfaces\CRUDRepoInterface;
+use App\DTOs\ModelDTO;
+use App\Http\RepoInterfaces\RepoRegisteryInterface;
+use App\Models\CssClass;
 use App\Models\Module;
+use App\Traits\DTOBuilder;
 
 class ModuleService{
+
+    use DTOBuilder;
     private $moduleRepo;
 
-    public function __construct(CRUDRepoInterface $moduleRepo)
+    private $registry;
+
+    public function __construct(RepoRegisteryInterface $ModuleRepoRegistry)
     {
-        $this->moduleRepo = $moduleRepo;
+        $this->registry = $ModuleRepoRegistry->getInstance();
+        $this->moduleRepo = $this->registry->get('module');
     }
 
-    public function addModule(Module $module)
+    public function createModule($module)
     {
-        return $this->moduleRepo->create($module->toArray());
+        return $this->moduleRepo->create($module);
     }
     public function getModule($id)
     {
@@ -29,8 +37,22 @@ class ModuleService{
     {
         return $this->moduleRepo->delete($id);
     }
-    public function updateModule($id, Module $module): int
+    public function updateModule($id, $module): Module
     {
-        return $this->moduleRepo->update($id, $module->toArray());
+        $moduleDTO = $this->createDTO($module);
+
+        return $this->moduleRepo->update($id, $moduleDTO);
+    }
+
+    public function createDTO($userData):ModelDTO
+    {
+
+        $fillableKeys = (new Module())->getFillable();
+
+        $nonFillableKeys = ['id'];
+
+        $dto = $this->buildDTO($fillableKeys, $nonFillableKeys, $userData);
+
+        return $dto;
     }
 }

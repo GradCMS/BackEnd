@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CssClass;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Services\CssClassService;
@@ -40,7 +39,7 @@ class CssClassController extends Controller
 
         return response()->json([
             'message'=>'CssClass has been created successfully',
-            'user'=>$cssClass
+            'CssClass'=>$cssClass
         ], 201);
     }
 
@@ -49,7 +48,7 @@ class CssClassController extends Controller
         $this->cssClassService->deleteCssClass($id);
 
         return response()->json([
-            'message'=>'Css Class with ID '.$id.' has been deleted successfully'
+            'message'=>'CssClass with ID '.$id.' has been deleted successfully'
         ]);
     }
 
@@ -70,8 +69,8 @@ class CssClassController extends Controller
         $cssClass = $this->cssClassService->updateCssClass($cssClassId,$userData);
 
         return response()->json([
-            'message'=>'Css Class with ID '.$cssClassId.' has been updated successfully',
-            'updated_Css Class'=>$cssClass
+            'message'=>'CssClass with ID '.$cssClassId.' has been updated successfully',
+            'updated_CssClass'=>$cssClass
         ]);
     }
 

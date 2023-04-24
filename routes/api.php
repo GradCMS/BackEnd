@@ -5,9 +5,11 @@ use App\Http\Controllers\Auth\PermissionController;
 use App\Http\Controllers\Auth\RoleController;
 use App\Http\Controllers\CssClassController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\DisplayController;
 use App\Http\Controllers\test;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ModuleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,7 +76,37 @@ Route::prefix('cssClass')->group(function (){
 
 });
 
+// Module
 
+Route::prefix('module')->group(function (){
+
+    Route::get('/{id}', [ModuleController::class,'getModule']);
+
+    Route::get('/',[ModuleController::class,'getModules']);
+
+    Route::post('/',[ModuleController::class,'createModule']);
+
+    Route::delete('/{id}',[ModuleController::class,'deleteModule']);
+
+    Route::patch('/{id}',[ModuleController::class,'updateModule']);
+
+});
+
+//Display
+
+Route::prefix('display')->group(function (){
+
+    Route::get('/{id}', [DisplayController::class,'getDisplay']);
+
+    Route::get('/',[DisplayController::class,'getDisplays']);
+
+    Route::post('/',[DisplayController::class,'createDisplay']);
+
+    Route::delete('/{id}',[DisplayController::class,'deleteDisplay']);
+
+    Route::patch('/{id}',[DisplayController::class,'updateDisplay']);
+
+});
 
 
 // Auth routes
