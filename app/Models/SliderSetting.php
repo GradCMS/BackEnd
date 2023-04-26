@@ -23,6 +23,7 @@ class SliderSetting extends Model
         'auto_play',
         'arrows',
         'bullets',
+        'class_id',
         'animation',
         'effect_speed_ms'
     ];

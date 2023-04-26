@@ -12,20 +12,36 @@ class DisplayService
 {
     use DTOBuilder;
     private $displayRepo;
-
     private $registry;
+    private $gridSettingService;
+    private $sliderSettingService;
 
-
-    public function __construct(RepoRegisteryInterface $displayRepoRegistery)
+    public function __construct(RepoRegisteryInterface $displayRepoRegistery, GridSettingService $gridSettingService, SliderSettingService $sliderSettingService)
     {
         $this->registry = $displayRepoRegistery->getInstance();
         $this->displayRepo = $this->registry->get('display');
+        $this->gridSettingService = $gridSettingService;
+        $this->sliderSettingService = $sliderSettingService;
+
     }
-    public function createDisplay( $display)
+    public function createDisplay($displayData)
     {
-        return $this->displayRepo->create($display);
+       if ($displayData['type'] == 'slider'){
+           $slider = $this->sliderSettingService->createSliderSetting($displayData['slider_settings']);
+           $displayData['slider_settings_id'] = $slider->id;
+       }
+       else if ($displayData['type'] == 'grid'){
+           $grid = $this->gridSettingService->createGridSetting($displayData['grid_settings']);
+           $displayData['grid_settings_id'] = $grid->id;
+       }
+
+        $displayDTO = $this->createDTO($displayData);
+
+        return $this->displayRepo->create($displayDTO);
+
     }
-    public function getDisplay($id)
+
+    public function getDisplayById($id)
     {
         return $this->displayRepo->getById($id);
     }
@@ -33,9 +49,9 @@ class DisplayService
     {
         return $this->displayRepo->getAll();
     }
-    public function deleteDisplay($id): int
+    public function deleteDisplay($id): void
     {
-        return $this->displayRepo->delete($id);
+        $this->displayRepo->delete($id);
     }
     public function updateDisplay($id, $display): Display
     {
@@ -43,15 +59,11 @@ class DisplayService
 
         return $this->displayRepo->update($id, $displayDTO);
     }
-    public function createDTO($userData):ModelDTO
+    public function createDTO($displayData):ModelDTO
     {
         $fillableKeys = (new Display())->getFillable();
 
-        $nonFillableKeys = ['id'];
-
-        $dto = $this->buildDTO($fillableKeys, $nonFillableKeys, $userData);
-
-        return $dto;
+        return $this->buildDTO($fillableKeys, [], $displayData);
 
     }
 }

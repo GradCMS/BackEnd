@@ -1,9 +1,13 @@
 <?php
 
 namespace App\Http\Repository;
+
+use App\DTOs\ModelDTO;
 use App\Http\RepoInterfaces\CRUDRepoInterface;
 use App\Models\GridSetting;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Post
@@ -13,28 +17,41 @@ use Illuminate\Database\Eloquent\Builder;
 class GridSettingRepo implements CRUDRepoInterface
 {
 
-    public function getAll()
+    public function create(ModelDTO $modelDTO):GridSetting
+    {
+        $gridSetting = new GridSetting();
+
+        $gridSetting->fill($modelDTO->getFillable());
+        $gridSetting->save();
+
+        return $gridSetting;
+    }
+
+
+    public function getAll(): Collection|array
     {
         return GridSetting::all();
     }
 
+
     public function getById($id)
     {
-        return GridSetting::Query()->findOrFail($id);
+        return GridSetting::find($id);
     }
+
+
+    public function update($id, ModelDTO|array $newData)
+    {
+        $gridSetting = GridSetting::find($id);
+
+        $gridSetting->update($newData); // data is passed as array because all the attributes are fillable
+    }
+
 
     public function delete($id)
     {
-        return GridSetting::destroy($id);
+        GridSetting::destroy($id);
     }
 
-    public function create($modelDTO)
-    {
-        return GridSetting::Query()->create($modelDTO);
-    }
 
-    public function update($id, $newData)
-    {
-        return GridSetting::Query()->where($id)->update($newData);
-    }
 }

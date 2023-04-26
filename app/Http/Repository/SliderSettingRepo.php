@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Http\Repository;
+use App\DTOs\ModelDTO;
 use App\Http\RepoInterfaces\CRUDRepoInterface;
 use App\Models\SliderSetting;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Post
@@ -13,28 +15,35 @@ use Illuminate\Database\Eloquent\Builder;
 class SliderSettingRepo implements CRUDRepoInterface
 {
 
-    public function getAll()
+    public function getAll(): Collection|array
     {
         return SliderSetting::all();
     }
 
     public function getById($id)
     {
-        return SliderSetting::Query()->findOrFail($id);
+        return SliderSetting::find($id);
     }
 
     public function delete($id)
     {
-        return SliderSetting::destroy($id);
+        SliderSetting::destroy($id);
     }
 
-    public function create($modelDTO)
+    public function create($modelDTO): SliderSetting
     {
-        return SliderSetting::Query()->create($modelDTO);
+       $sliderSetting = new SliderSetting();
+
+       $sliderSetting->fill($modelDTO->getFillable());
+       $sliderSetting->save();
+
+       return $sliderSetting;
     }
 
-    public function update($id, $newData)
+    public function update($id, ModelDTO|array $newData)
     {
-        return SliderSetting::Query()->where($id)->update($newData);
+       $sliderSetting = SliderSetting::find($id);
+
+       $sliderSetting->update($newData); // data is passed as array because all attributes are fillable
     }
 }

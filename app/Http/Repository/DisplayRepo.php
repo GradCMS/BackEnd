@@ -5,44 +5,38 @@ namespace App\Http\Repository;
 use App\DTOs\ModelDTO;
 use App\Http\RepoInterfaces\CRUDRepoInterface;
 use App\Models\Display;
+use Illuminate\Database\Eloquent\Collection;
 
 class DisplayRepo implements CRUDRepoInterface
 {
 
 
-    /**
-     * @param array $modelDTO
-     * @return mixed
-     */
-    public function create($modelDTO)
+    public function create($modelDTO): Display
     {
-        return Display::Query()->create($modelDTO);
+        $display = new Display();
+
+        $display->fill($modelDTO->getFillable());
+        $display->save();
+
+        return $display;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getAll()
+
+    public function getAll(): Collection|array
     {
         return Display::all();
     }
 
-    /**
-     * @param $id
-     * @return mixed
-     */
+
     public function getById($id)
     {
         return Display::Query()->findOrFail($id);
     }
 
-    /**
-     * @param $id
-     * @return mixed
-     */
+
     public function delete($id)
     {
-        return Display::destroy($id);
+       Display::destroy($id);
     }
 
 

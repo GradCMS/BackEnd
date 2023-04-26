@@ -8,7 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class PageController extends Controller // controllers handles all the requests
+class PageController extends Controller
 {
     private $pageService;
     public function __construct(PageService $pageService)
@@ -67,7 +67,7 @@ class PageController extends Controller // controllers handles all the requests
     public function getPageById($id):JsonResponse
     {
         $validator = Validator::make(['id' => $id], [
-            'id' => 'required|integer|exists:pages',
+            'id' => 'integer|exists:pages',
         ]);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);

@@ -15,6 +15,7 @@ class GridSetting extends Model
         'blocks_count',
         'blocks_per_row',
         'blocks_spacing',
+        'class_id',
         'blocks_animation',
         'horizontal_alignment',
         'vertical_alignment'

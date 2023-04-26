@@ -98,7 +98,7 @@ Route::prefix('display')->group(function (){
 
     Route::get('/{id}', [DisplayController::class,'getDisplay']);
 
-    Route::get('/',[DisplayController::class,'getDisplays']);
+    Route::get('/',[DisplayController::class,'getAllDisplays']);
 
     Route::post('/',[DisplayController::class,'createDisplay']);
 

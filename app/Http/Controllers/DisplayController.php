@@ -18,36 +18,50 @@ class DisplayController extends Controller
 
     public function getDisplay($id): JsonResponse
     {
-        $display = $this->displayService->getDisplay($id);
-        return response()->json(["Display"=>$display]);
+        $validator = Validator::make(['id' => $id], [
+            'id' => 'integer|exists:displays',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $display = $this->displayService->getDisplayById($id);
+
+        return response()->json([
+            "Display"=>$display
+        ]);
     }
 
-    public function getDisplays() :JsonResponse
+    public function getAllDisplays() :JsonResponse
     {
         $displays = $this->displayService->getDisplays();
-        return response()->json(["Displays"=>$displays]);
+
+        return response()->json([
+            "Displays"=>$displays
+        ]);
     }
 
     public function createDisplay(Request $request):JsonResponse
     {
+        /*
+         * create the grid or slider first based on the type
+         * then create the display with the grid or slider created
+         *
+         */
         $validator = Validator::make($request->all(), [
-            'grid_settings_id' => 'required|exists:displays,id',
-            'slider_settings_id' => 'required|exists:displays,id',
-            'source_page_id' => 'required|exists:displays,id',
+            'source_page_id' => 'required|exists:pages,id',
+            'slider_settings'=>'required_if:type,slider',
+            'grid_settings'=>'required_if:type,grid',
+            'grid_settings.class_id'=>'integer|exists:css_classes,id',
+            'slider_settings.class_id'=>'integer|exists:css_classes,id',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-        $userData = [
-            'placeholder' => $request->input('placeholder'),
-            'type'=> $request->input('type'),
-            'display_template'=> $request->input('display_template'),
-            'grid_settings_id'=>$request->input('grid_settings_id'),
-            'slider_settings_id'=>$request->input('slider_settings_id'),
-            'source_page_id'=>$request->input('source_page_id'),
-        ];
-        $display = $this->displayService->createDisplay($userData);
+
+
+        $display = $this->displayService->createDisplay($request->all());
 
         return response()->json([
             'message'=>'Display has been created successfully',

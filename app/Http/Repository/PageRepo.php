@@ -36,7 +36,7 @@ class PageRepo implements PageRepoInterface
     {
         $pages = Page::with(['modules' => function ($query) {
             $query->select()
-                ->withPivot('priority');
+                  ->withPivot('priority');
         }])->get();
 
         foreach ($pages as $page){

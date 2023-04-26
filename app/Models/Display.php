@@ -15,7 +15,9 @@ class Display extends Model
       'placeholder',
       'type',
       'display_template',
-      'source_page_id'
+      'source_page_id',
+      'grid_settings_id',
+      'slider_settings_id'
     ];
     public function sourcePage(): BelongsTo // every Display have 1 source
     {
