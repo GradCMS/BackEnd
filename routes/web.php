@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Services\Auth\AuthService;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +16,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+//    dd(app());
     return view('welcome');
 });
+
+
+
+Route::get('unathorized', [AuthService::class, 'unauthorized']);

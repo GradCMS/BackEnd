@@ -1,8 +1,10 @@
 <?php
 namespace App\Http\Repository;
 
-use App\Http\RepoInterfaces\CRUDRepoInterface;
+use App\DTOs\ModelDTO;
+use App\Http\RepoInterfaces\PageRepoInterface;
 use App\Models\Page;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 /**
@@ -10,37 +12,103 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @mixin Builder
  */
-class PageRepo implements CRUDRepoInterface{
+class PageRepo implements PageRepoInterface
+{
 
-
-    public function getAll()
+    public function create(ModelDTO $modelDTO):Page
     {
-        // TODO: Implement getAll() method.
-        return Page::all();
+        $page = new Page();
+
+        $page = $this->fillData($modelDTO, $page);
+        $page->save();
+
+        return $page;
     }
+
+    public function fillData(ModelDTO $modelDTO, Page $page): Page
+    {
+        $fillableData = $modelDTO->getFillable();
+        $page->fill($fillableData);
+        return $page;
+    }
+
+    public function getAll(): \Illuminate\Database\Eloquent\Collection|array
+    {
+        $pages = Page::with(['modules' => function ($query) {
+            $query->select()
+                  ->withPivot('priority');
+        }])->get();
+
+        foreach ($pages as $page){
+            $page->modules->each(function ($module) {
+                $module->makeHidden(['pivot', 'page_id', 'module_id']);
+            });
+        }
+
+        return $pages;
+    }
+
 
     public function getById($id)
     {
-        // TODO: Implement getById() method.
-        return Page::Query()->findOrFail($id);
+        $page = Page::with(['modules' => function ($query) {
+            $query->select()
+                ->withPivot('priority');
+        }])->find($id);
 
+        $page->modules->each(function ($module) {
+            $module->makeHidden(['pivot', 'page_id', 'module_id']);
+        });
+
+        return $page;
     }
 
-    public function delete($id): int
-    {
-        // TODO: Implement delete() method.
-        return Page::destroy($id);
+
+    public function update($id, ModelDTO|array $newData)
+    { // passing array as it's simple update
+        $page = Page::find($id);
+
+        $page->update($newData);
     }
 
-    public function create(array $modelDetails)
+
+    public function delete($id)
     {
-        // TODO: Implement create() method.
-        return Page::Query()->create($modelDetails);
+        Page::destroy($id);
     }
 
-    public function update($id, array $modelDetails): int
+    public function getPagesTree(): array
     {
-        // TODO: Implement update() method.
-        return Page::Query()->where($id)->update($modelDetails);
+        $pages =  Page::with('children')
+                        ->whereNull('parent_id')
+                        ->orderBy('id')
+                        ->get();
+        return $this->buildNestedPages($pages);
+    }
+
+    private function buildNestedPages($pages): array
+    {
+        $result = [];
+
+        foreach ($pages as $page) {
+            $nestedChildren = $this->buildNestedPages($page->children);
+
+            $pageData = [
+                'id' => $page->id,
+                'title' => $page->title,
+                'children' => $nestedChildren
+            ];
+
+            $result[] = $pageData;
+        }
+
+        return $result;
+    }
+
+    public function syncModulesInPage($pageId, $modules)
+    {
+        $page = Page::find($pageId);
+
+        $page->modules()->sync($modules);
     }
 }
