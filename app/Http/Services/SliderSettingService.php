@@ -29,7 +29,7 @@ class SliderSettingService
 
     }
 
-    private function createDTO($sliderSettingData):ModelDTO
+    public function createDTO($sliderSettingData):ModelDTO
     {
         $fillableKeys = (new SliderSetting)->getFillable();
 
