@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\RoleController;
 use App\Http\Controllers\CssClassController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\DisplayController;
+use App\Http\Controllers\SiteIdentityController;
 use App\Http\Controllers\test;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -60,53 +61,6 @@ Route::prefix('test')->group(function(){
     Route::get('getCssClasses',[test::class,'getCssClasses']);
 });
 
-// Css Class
-
-Route::prefix('cssClass')->group(function (){
-
-    Route::get('/{id}', [CssClassController::class,'getCssClass']);
-
-    Route::get('/',[CssClassController::class,'getCssClasses']);
-
-    Route::post('/',[CssClassController::class,'createCssClass']);
-
-    Route::delete('/{id}',[CssClassController::class,'deleteCssClass']);
-
-    Route::patch('/{id}',[CssClassController::class,'updateCssClass']);
-
-});
-
-// Module
-
-Route::prefix('module')->group(function (){
-
-    Route::get('/{id}', [ModuleController::class,'getModule']);
-
-    Route::get('/',[ModuleController::class,'getModules']);
-
-    Route::post('/',[ModuleController::class,'createModule']);
-
-    Route::delete('/{id}',[ModuleController::class,'deleteModule']);
-
-    Route::patch('/{id}',[ModuleController::class,'updateModule']);
-
-});
-
-//Display
-
-Route::prefix('display')->group(function (){
-
-    Route::get('/{id}', [DisplayController::class,'getDisplay']);
-
-    Route::get('/',[DisplayController::class,'getAllDisplays']);
-
-    Route::post('/',[DisplayController::class,'createDisplay']);
-
-    Route::delete('/{id}',[DisplayController::class,'deleteDisplay']);
-
-    Route::patch('/{id}',[DisplayController::class,'updateDisplay']);
-
-});
 
 
 // Auth routes
@@ -180,6 +134,67 @@ Route::prefix('pages')->group(function(){
     Route::delete('/{id}', [PageController::class, 'deletePage']);
 
     Route::patch('/{id}',[PageController::class, 'updatePage']);
+
+});
+
+
+// Css Class
+
+Route::prefix('cssClass')->group(function (){
+
+    Route::get('/{id}', [CssClassController::class,'getCssClass']);
+
+    Route::get('/',[CssClassController::class,'getCssClasses']);
+
+    Route::post('/',[CssClassController::class,'createCssClass']);
+
+    Route::delete('/{id}',[CssClassController::class,'deleteCssClass']);
+
+    Route::patch('/{id}',[CssClassController::class,'updateCssClass']);
+
+});
+
+// Module
+
+Route::prefix('module')->group(function (){
+
+    Route::get('/{id}', [ModuleController::class,'getModule']);
+
+    Route::get('/',[ModuleController::class,'getModules']);
+
+    Route::post('/',[ModuleController::class,'createModule']);
+
+    Route::delete('/{id}',[ModuleController::class,'deleteModule']);
+
+    Route::patch('/{id}',[ModuleController::class,'updateModule']);
+
+});
+
+//Display
+
+Route::prefix('display')->group(function (){
+
+    Route::get('/{id}', [DisplayController::class,'getDisplay']);
+
+    Route::get('/',[DisplayController::class,'getAllDisplays']);
+
+    Route::post('/',[DisplayController::class,'createDisplay']);
+
+    Route::delete('/{id}',[DisplayController::class,'deleteDisplay']);
+
+    Route::patch('/{id}',[DisplayController::class,'updateDisplay']);
+
+});
+
+Route::prefix('siteIdentity')->group(function (){
+
+    Route::get('/{id}', [SiteIdentityController::class,'getSiteIdentity']);
+
+    Route::post('/',[SiteIdentityController::class,'createSiteIdentity']);
+
+    Route::patch('/{id}',[SiteIdentityController::class,'updateSiteIdentity']);
+
+    Route::delete('/{id}',[SiteIdentityController::class,'deleteSiteIdentity']);
 
 });
 

@@ -11,6 +11,7 @@ use App\Traits\DTOBuilder;
 class PageService{
 
     use DTOBuilder;
+
     private $registry;
     private $pageRepo;
     public function __construct(RepoRegisteryInterface $repoRegistery)

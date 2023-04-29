@@ -11,6 +11,7 @@ use App\Http\Repository\DisplayRepo;
 use App\Http\Repository\GridSettingRepo;
 use App\Http\Repository\ModuleRepo;
 use App\Http\Repository\PageRepo;
+use App\Http\Repository\SiteIdentityRepo;
 use App\Http\Repository\SliderSettingRepo;
 use App\Http\Repository\UserRepo;
 use Illuminate\Support\ServiceProvider;
@@ -22,7 +23,7 @@ class RepositoryServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->app->bind(RepoRegisteryInterface::class, RepositoryRegistery::class);
     }
@@ -32,7 +33,7 @@ class RepositoryServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $registery = RepositoryRegistery::getInstance();
 
@@ -47,5 +48,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $registery->register('role', new RoleRepo());
         $registery->register('permission', new PermissionRepo());
         $registery->register('user', new UserRepo());
+        $registery->register('site_identity', new SiteIdentityRepo());
     }
 }
