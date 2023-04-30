@@ -63,7 +63,7 @@ class DisplayService
         /** algorithm:
          *
          * get display with $id (it will come with either gridSettingsId or sliderSettingsId)
-         *  this step tells us wether the display is grid or slider
+         *  this step tells us weather the display is grid or slider
          *
          * update display like normal, pass all the data coming from the request
          * (we have the old display , we know if it's slider or grid , and we have the object {id} of the slider or grid)
@@ -81,56 +81,36 @@ class DisplayService
          *         the same condition for slider to grid
          *
         */
-        //Scenario 1 -> Update the display itself.
-        if (!array_key_exists('type', $displayData) && !array_key_exists('grid_settings', $displayData) && !array_key_exists('slider_settings', $displayData)){
-            $displayDTO = $this->createDTO($displayData);
-            return $this->displayRepo->update($id, $displayDTO);
+
+        $display = $this->displayRepo->getById($id);
+
+        //Scenario 1 -> Update slider settings//grid settings.
+
+        if ($display->slider_settings_id!=null && array_key_exists('slider_settings',$displayData))//Update slider data
+        {
+            $this->sliderSettingsService->updateSliderSetting($display->slider_settings_id,$displayData['slider_settings']);
+        }
+        elseif ($display->grid_settings_id!=null && array_key_exists('grid_settings',$displayData))
+        {
+            $this->gridSettingsService->updategridSetting($display->grid_settings_id,$displayData['grid_settings']);
         }
 
         // Scenario 2 -> Check if the user wants to change from the grid settings to slider settings or vice versa.
 
-        if(array_key_exists('type', $displayData) && array_key_exists('grid_settings', $displayData) || array_key_exists('slider_settings', $displayData)) {
-            $display = $this->displayRepo->getById($id);
-            if (array_key_exists('type', $displayData) && $displayData['type']==='grid') {
-                if (array_key_exists('grid_settings', $displayData)) {
-                    // Delete existing slider settings
-                    if ($display->slider_settings_id) {
-                        $this->sliderSettingsService->deleteSliderSetting($display->slider_settings_id);
-                    }
-                    // Create new gridSettings and assign it to the display.
-                    $createdGridSettings = $this->gridSettingsService->createGridSetting($displayData['grid_settings']);
-                    $displayData['grid_settings_id'] = $createdGridSettings->id;
-                    $displayData['slider_settings_id']->slider_settings_id = null;
-                    $displayData['type'] = 'grid';
-                }
-            }
-            if (array_key_exists('type', $displayData) && $displayData['type']==='slider') {
-                $display = $this->displayRepo->getById($id);
-                if (array_key_exists('slider_settings', $displayData)) {
-                    // Delete existing grid settings
-                    if ($display->grid_settings_id) {
-                        $this->gridSettingsService->deleteGridSetting($display->grid_settings_id);
-                    }
-                    // Create new sliderSettings and assign it to the display.
-                    $createdGridSettings = $this->gridSettingsRepo->create($displayData['grid_settings']);
-                    $displayData['grid_settings_id'] = $createdGridSettings->id;
-                    $displayData['slider_settings_id']->slider_settings_id = null;
-                    $displayData['type'] = 'grid';
-                }
-            }
-        }if (!array_key_exists('type', $displayData) && array_key_exists('grid_settings', $displayData) || array_key_exists('slider_settings', $displayData)){
-            $display = $this->displayRepo->getById($id);
-            if (array_key_exists('slider_settings', $displayData)){
-                $sliderId = $display['slider_settings_id'];
-                $this->sliderSettingsService->updateSliderSetting($sliderId,$displayData['slider_settings']);
-            }elseif (array_key_exists('grid_settings', $displayData)){
-                $gridId = $display['slider_settings_id'];
-                $this->gridSettingsService->updateGridSetting($gridId,$displayData['grid_settings']);
-            }
+        elseif($display->slider_settings_id!=null && array_key_exists('grid_settings',$displayData))
+        {
+            $this->sliderSettingsService->deleteSliderSetting($display->slider_settings_id);
+            $newGridSettings = $this->gridSettingsService->createGridSetting($displayData['grid_settings']);
+            $displayData['grid_settings_id'] = $newGridSettings->id;
+        }
+        elseif($display->grid_settings_id!=null && array_key_exists('slider_settings',$displayData))
+        {
+            $this->gridSettingsService->deleteGridSetting($display->grid_settings_id);
+            $newSliderSettings = $this->sliderSettingsService->createSliderSetting($displayData['slider_settings']);
+            $displayData['slider_settings_id'] = $newSliderSettings->id;
         }
 
         $displayDTO = $this->createDTO($displayData);
-
         return $this->displayRepo->update($id, $displayDTO);
     }
     public function createDTO($displayData):ModelDTO

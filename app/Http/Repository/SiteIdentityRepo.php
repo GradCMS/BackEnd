@@ -37,11 +37,15 @@ class SiteIdentityRepo implements CRUDRepoInterface
     }
 
 
-    public function update($id, ModelDTO|array $newData)
+    public function update($id, ModelDTO|array $newData): SiteIdentity
     {
         $siteIdentity = SiteIdentity::find($id);
 
-        return $siteIdentity->update($newData->getFillable());
+        $siteIdentity = $this->fillData($newData,$siteIdentity);
+
+        $siteIdentity->update();
+
+        return $siteIdentity;
     }
 
 

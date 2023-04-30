@@ -39,7 +39,8 @@ class SiteIdentityController extends Controller
         $siteIdentity = $this->siteIdentityService->updateSiteIdentity($request->all(), $id);
 
         return response()->json([
-            'message'=>'Site identity with ID' .$id. ' has been uopdated successfully'
+            'message'=>'Site identity with ID' .$id. ' has been updated successfully',
+            'Updated_Site_Identity'=>$siteIdentity
         ]);
     }
 
