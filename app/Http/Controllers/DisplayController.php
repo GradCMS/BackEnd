@@ -96,6 +96,7 @@ class DisplayController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
+
         $userData = [
             'placeholder' => $request->input('placeholder')?? null,
             'type'=> $request->input('type')?? null,

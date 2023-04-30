@@ -60,6 +60,27 @@ class DisplayService
     }
     public function updateDisplay($id, $displayData): Display
     {
+        /** algorithm:
+         *
+         * get display with $id (it will come with either gridSettingsId or sliderSettingsId)
+         *  this step tells us wether the display is grid or slider
+         *
+         * update display like normal, pass all the data coming from the request
+         * (we have the old display , we know if it's slider or grid , and we have the object {id} of the slider or grid)
+         *
+         * conditions (scenarios):
+         *      if the old display is slider and the $displayData.isset(sliderSettings)
+         *          this means we want to update the slider settings, so we will call the update slider settings from the service
+         *
+         *      the same condition for grid update grid settings (grid, grid)
+         *
+         *      if old display is grid and the $displayData.isset(sliderSettings)
+         *          this means we want to update the type of display and delete the grid settings reference (set to null)
+         *          then create new slider settings and put the reference in the new updated display (grid to slider)
+         *
+         *         the same condition for slider to grid
+         *
+        */
         //Scenario 1 -> Update the display itself.
         if (!array_key_exists('type', $displayData) && !array_key_exists('grid_settings', $displayData) && !array_key_exists('slider_settings', $displayData)){
             $displayDTO = $this->createDTO($displayData);
