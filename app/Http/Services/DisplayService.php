@@ -25,8 +25,6 @@ class DisplayService
     {
         $this->registry = $displayRepoRegistery->getInstance();
         $this->displayRepo = $this->registry->get('display');
-        $this->sliderSettingsRepo = $this->registry->get('slider_settings');
-        $this->gridSettingsRepo = $this->registry->get('grid_settings');
         $this->gridSettingsService = $gridSettingsService;
         $this->sliderSettingsService = $sliderSettingsService;
 
@@ -76,11 +74,10 @@ class DisplayService
                 if (array_key_exists('grid_settings', $displayData)) {
                     // Delete existing slider settings
                     if ($display->slider_settings_id) {
-                        $this->sliderSettingsRepo->delete($display->slider_settings_id);
+                        $this->sliderSettingsService->deleteSliderSetting($display->slider_settings_id);
                     }
                     // Create new gridSettings and assign it to the display.
-                    $gridSettingsDTO = $this->gridSettingsService->createDTO($displayData['grid_settings']);
-                    $createdGridSettings = $this->gridSettingsRepo->create($gridSettingsDTO);
+                    $createdGridSettings = $this->gridSettingsService->createGridSetting($displayData['grid_settings']);
                     $displayData['grid_settings_id'] = $createdGridSettings->id;
                     $displayData['slider_settings_id']->slider_settings_id = null;
                     $displayData['type'] = 'grid';
@@ -91,11 +88,10 @@ class DisplayService
                 if (array_key_exists('slider_settings', $displayData)) {
                     // Delete existing grid settings
                     if ($display->grid_settings_id) {
-                        $this->gridSettingsRepo->delete($display->grid_settings_id);
+                        $this->gridSettingsService->deleteGridSetting($display->grid_settings_id);
                     }
                     // Create new sliderSettings and assign it to the display.
-                    $gridSettingsDTO = $this->sliderSettingsService->createDTO($displayData['grid_settings']);
-                    $createdGridSettings = $this->gridSettingsRepo->create($gridSettingsDTO);
+                    $createdGridSettings = $this->gridSettingsRepo->create($displayData['grid_settings']);
                     $displayData['grid_settings_id'] = $createdGridSettings->id;
                     $displayData['slider_settings_id']->slider_settings_id = null;
                     $displayData['type'] = 'grid';
@@ -105,12 +101,10 @@ class DisplayService
             $display = $this->displayRepo->getById($id);
             if (array_key_exists('slider_settings', $displayData)){
                 $sliderId = $display['slider_settings_id'];
-                $sliderDTO = $this->sliderSettingsService->createDTO($displayData['slider_settings']);
-                $this->sliderSettingsRepo->update($sliderId,$sliderDTO);
+                $this->sliderSettingsService->updateSliderSetting($sliderId,$displayData['slider_settings']);
             }elseif (array_key_exists('grid_settings', $displayData)){
                 $gridId = $display['slider_settings_id'];
-                $gridDTO = $this->gridSettingsService->createDTO($displayData['grid_settings']);
-                $this->gridSettingsRepo->update($gridId,$gridDTO);
+                $this->gridSettingsService->updateGridSetting($gridId,$displayData['grid_settings']);
             }
         }
 
