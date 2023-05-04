@@ -31,7 +31,7 @@ class CssClassController extends Controller
             'placeholder' => $request->input('placeholder'),
             'tags'=> $request->input('tags'),
             'reference_name'=> $request->input('reference_name'),
-            'json'=>$request->input('json'),
+            'json'=>json_encode($request->input('json')),
             'css'=>$request->input('css'),
             'custom_css'=>$request->input('custom_css'),
         ];

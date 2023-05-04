@@ -22,7 +22,9 @@ class SiteIdentityService
     public function createSiteIdentity($siteIdentityData)
     {
         $siteIdentityDTO = $this->createDTO($siteIdentityData);
-
+        foreach ($siteIdentityDTO->getFillable() as $key => $value) {
+            $siteIdentityDTO->fill[$key] = json_encode($value);
+        }
        return $this->siteIdentityRepo->create($siteIdentityDTO);
     }
 

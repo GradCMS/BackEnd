@@ -15,10 +15,10 @@ class CreateSiteIdentitiesTable extends Migration
     {
         Schema::create('site_identities', function (Blueprint $table) {
             $table->id();
-            $table->text('contact_us')->nullable();
-            $table->text('social_media')->nullable();
-            $table->text('about')->nullable();
-            $table->text('images')->nullable();
+            $table->json('contact_us')->nullable();
+            $table->json('social_media')->nullable();
+            $table->json('about')->nullable();
+            $table->json('images')->nullable();
             $table->timestamps();
         });
     }
