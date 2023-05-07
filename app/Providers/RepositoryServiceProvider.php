@@ -10,6 +10,7 @@ use App\Http\Repository\CssClassRepo;
 use App\Http\Repository\DisplayRepo;
 use App\Http\Repository\GridSettingRepo;
 use App\Http\Repository\ModuleRepo;
+use App\Http\Repository\NavbarRepo;
 use App\Http\Repository\PageRepo;
 use App\Http\Repository\SiteIdentityRepo;
 use App\Http\Repository\SliderSettingRepo;
@@ -49,5 +50,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $registery->register('permission', new PermissionRepo());
         $registery->register('user', new UserRepo());
         $registery->register('site_identity', new SiteIdentityRepo());
+        $registery->register('nav_bar', new NavbarRepo());
     }
 }

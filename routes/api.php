@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\PermissionController;
 use App\Http\Controllers\Auth\RoleController;
 use App\Http\Controllers\CssClassController;
+use App\Http\Controllers\NavBarController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\DisplayController;
 use App\Http\Controllers\SiteIdentityController;
@@ -198,4 +199,15 @@ Route::prefix('siteIdentity')->group(function (){
 
 });
 
+Route::prefix('navBar')->group(function (){
+
+    Route::get('/', [NavBarController::class,'getNavBar']);
+
+    Route::post('/',[NavBarController::class, 'addElement']);
+
+    Route::patch('/{id}',[NavBarController::class,'updateElement']);
+
+    Route::delete('/{id}',[NavBarController::class,'deleteElement']);
+
+});
 

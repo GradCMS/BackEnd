@@ -27,8 +27,6 @@ class SiteIdentityRepo implements CRUDRepoInterface
     {
         $fillableData = $modelDTO->getFillable();
 
-
-
         $siteIdentity->fill($fillableData);
 
         return $siteIdentity;
