@@ -4,18 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Http\Services\PageService;
 use App\Models\Page;
-use App\Traits\UploadImage;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class PageController extends Controller
 {
-    use UploadImage;
+
     private $pageService;
     public function __construct(PageService $pageService)
     {
-
         $this->pageService = $pageService;
     }
 
@@ -30,22 +28,7 @@ class PageController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $headerImageUrl = $this->uploadImage($request->file('header_image_url'));
-        $coverImageUrl = $this->uploadImage($request->file('cover_image_url'));
-
-        $pageData = [
-            'type'=>$request->input('type'),
-            'title'=>$request->input('title'),
-            'sub_title'=>$request->input('sub_title'),
-            'url'=>$request->input('url'),
-            'tags'=>$request->input('tags'),
-            'short_description'=>$request->input('short_description'),
-            'header_image_url'=>$headerImageUrl,
-            'cover_image_url'=>$coverImageUrl,
-            'hidden'=>$request->input('hidden'),
-            'parent_id'=>$request->input('parent_id')
-        ];
-        $page = $this->pageService->createPage($pageData);
+        $page = $this->pageService->createPage($request->all());
 
         return response()->json([
             'message'=>'Page has been created successfully',

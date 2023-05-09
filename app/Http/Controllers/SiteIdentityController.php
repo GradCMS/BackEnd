@@ -73,8 +73,14 @@ class SiteIdentityController extends Controller
 
         $siteIdentity = $this->siteIdentityService->getSiteIdentity($id);
 
+        $siteIdentity = json_decode($siteIdentity, true);
+
+        foreach ($siteIdentity as $key => $value) {
+            $siteIdentity[$key] = json_decode($value);
+        }
+
         return response()->json([
-            'Site_identity'=>$siteIdentity
+            'Site_identity'=> $siteIdentity
         ]);
     }
 

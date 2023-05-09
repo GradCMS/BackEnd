@@ -23,10 +23,7 @@ class SiteIdentityService
 
     public function createSiteIdentity($siteIdentityData)
     {
-        if(array_key_exists('images', $siteIdentityData))
-        {
-            $siteIdentityData['images'] = $this->uploadImages($siteIdentityData['images']);
-        }
+        $siteIdentityData = $this->uploadImages($siteIdentityData);
         $siteIdentityDTO = $this->createDTO($siteIdentityData);
 
         foreach ($siteIdentityDTO->getFillable() as $key => $value) {
@@ -35,14 +32,15 @@ class SiteIdentityService
        return $this->siteIdentityRepo->create($siteIdentityDTO);
     }
 
-    public function uploadImages($images) // upload images for site identity
+    public function uploadImages($siteIdentityData) // upload images for site identity
     {
-        foreach ($images as $key => $image){
-           $images[$key] =  $this->uploadImage($image);
+        if (array_key_exists('images', $siteIdentityData)) {
+            foreach ($siteIdentityData['images'] as $key => $image) {
+                $siteIdentityData['images'][$key] = $this->uploadImage($image);
+            }
         }
-        return $images;
+        return $siteIdentityData;
     }
-
     public function createDTO($siteIdentityData):ModelDTO
     {
         $fillableKeys = (new SiteIdentity)->getFillable();
@@ -51,7 +49,12 @@ class SiteIdentityService
 
     public function updateSiteIdentity($siteIdentityData, $id)
     {
+        $siteIdentityData = $this->uploadImages($siteIdentityData);
         $siteIdentityDTO = $this->createDTO($siteIdentityData);
+
+        foreach ($siteIdentityDTO->getFillable() as $key => $value) {
+            $siteIdentityDTO->fill[$key] = json_encode($value);
+        }
 
         return $this->siteIdentityRepo->update($id, $siteIdentityDTO);
     }
