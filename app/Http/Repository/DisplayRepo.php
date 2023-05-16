@@ -24,14 +24,35 @@ class DisplayRepo implements CRUDRepoInterface
 
     public function getAll(): Collection|array
     {
-        return Display::all();
+        $displays = Display::all();
+
+        foreach ($displays as $display) {
+            if (!is_null($display->slider_settings_id)) {
+                $display->load('sliderSetting');
+            } elseif (!is_null($display->grid_settings_id)) {
+                $display->load('gridSetting');
+            }
+        }
+
+        return $displays;
+
     }
 
 
     public function getById($id)
     {
-        return Display::Query()->findOrFail($id);
+        $display = Display::find($id);
+
+        if (!is_null($display->slider_settings_id)) {
+            $display->load('sliderSetting');
+        } elseif (!is_null($display->grid_settings_id)) {
+            $display->load('gridSetting');
+        }
+
+        return $display;
+
     }
+
 
 
     public function delete($id)
