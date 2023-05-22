@@ -11,10 +11,10 @@ use Tymon\JWTAuth\JWTGuard;
 class AuthService
 {
 
-    public function login(array $creds): array
+    public function login(array $creds): ?array
     {
         if (!$token = auth()->attempt($creds)){
-            return [['error' => 'Unauthorized/ incorrect user name or password']];
+            return null;
         }
 
         return $this->respondWithToken($token);
