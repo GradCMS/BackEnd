@@ -10,6 +10,7 @@ use App\Models\Module;
 use App\Models\Page;
 use App\Models\SliderSetting;
 use App\Models\User;
+use App\Traits\UploadImage;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -17,6 +18,7 @@ use MongoDB\Driver\Query;
 
 class test extends Controller
 {
+    use UploadImage;
     private $roleService;
     public function __construct(RoleService $roleService)
     {
@@ -291,6 +293,15 @@ class test extends Controller
         $page = Page::find(1);
         $page->modules()->updateExistingPivot(3, ['priority'=> 3]);
         return response()->json(['msg'=>'ok']);
+    }
+    public function dummyUploadImage(Request $request): JsonResponse
+    {
+        $image = $request['image'];
+
+        $image_name = $this->uploadImage($image);
+
+        return response()->json(['image_name'=> $image_name]);
+
     }
 
 

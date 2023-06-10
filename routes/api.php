@@ -60,6 +60,8 @@ Route::prefix('test')->group(function(){
     Route::get('getCssClass/{id}', [test::class,'getCssClass']);
 
     Route::get('getCssClasses',[test::class,'getCssClasses']);
+
+    Route::post('upload', [test::class,'dummyUploadImage']);
 });
 
 
