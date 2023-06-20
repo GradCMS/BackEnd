@@ -47,6 +47,7 @@ class NavbarRepo implements \App\Http\RepoInterfaces\CRUDRepoInterface
             $nestedChildren = $this->buildNestedElements($navBar->children);
 
             $navBarData = [
+                'id'=>$navBar->id,
                 'referenced_page' => $navBar->referenced_page,
                 'name' => $navBar->name,
                 'priority' => $navBar->priority,

@@ -56,6 +56,7 @@ class SiteIdentityService
             $siteIdentityDTO->fill[$key] = json_encode($value);
         }
 
+
         return $this->siteIdentityRepo->update($id, $siteIdentityDTO);
     }
 
