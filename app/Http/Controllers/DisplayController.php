@@ -58,8 +58,8 @@ class DisplayController extends Controller
          */
         $validator = Validator::make($request->all(), [
             'source_page_id' => 'required|exists:pages,id',
-            'slider_settings' => 'required_if:type,slider',
-            'grid_settings' => 'required_if:type,grid',
+            'slider_setting' => 'required_if:type,slider',
+            'grid_setting' => 'required_if:type,grid',
             'grid_settings.class_id' => 'integer|exists:css_classes,id',
             'slider_settings.class_id' => 'integer|exists:css_classes,id',
         ]);

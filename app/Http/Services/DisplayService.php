@@ -32,11 +32,11 @@ class DisplayService
     public function createDisplay($displayData)
     {
        if ($displayData['type'] == 'slider'){
-           $slider = $this->sliderSettingsService->createSliderSetting($displayData['slider_settings']);
+           $slider = $this->sliderSettingsService->createSliderSetting($displayData['slider_setting']);
            $displayData['slider_settings_id'] = $slider->id;
        }
        else if ($displayData['type'] == 'grid'){
-           $grid = $this->gridSettingsService->createGridSetting($displayData['grid_settings']);
+           $grid = $this->gridSettingsService->createGridSetting($displayData['grid_setting']);
            $displayData['grid_settings_id'] = $grid->id;
        }
 
@@ -86,27 +86,27 @@ class DisplayService
 
         //Scenario 1 -> Update slider settings//grid settings.
 
-        if ($display->slider_settings_id!=null && array_key_exists('slider_settings',$displayData))//Update slider data
+        if ($display->slider_settings_id!=null && array_key_exists('slider_setting',$displayData))//Update slider data
         {
-            $this->sliderSettingsService->updateSliderSetting($display->slider_settings_id,$displayData['slider_settings']);
+            $this->sliderSettingsService->updateSliderSetting($display->slider_settings_id,$displayData['slider_setting']);
         }
-        elseif ($display->grid_settings_id!=null && array_key_exists('grid_settings',$displayData))
+        elseif ($display->grid_settings_id!=null && array_key_exists('grid_setting',$displayData))
         {
-            $this->gridSettingsService->updategridSetting($display->grid_settings_id,$displayData['grid_settings']);
+            $this->gridSettingsService->updategridSetting($display->grid_settings_id,$displayData['grid_setting']);
         }
 
         // Scenario 2 -> Check if the user wants to change from the grid settings to slider settings or vice versa.
 
-        elseif($display->slider_settings_id!=null && array_key_exists('grid_settings',$displayData))
+        elseif($display->slider_settings_id!=null && array_key_exists('grid_setting',$displayData))
         {
             $this->sliderSettingsService->deleteSliderSetting($display->slider_settings_id);
-            $newGridSettings = $this->gridSettingsService->createGridSetting($displayData['grid_settings']);
+            $newGridSettings = $this->gridSettingsService->createGridSetting($displayData['grid_setting']);
             $displayData['grid_settings_id'] = $newGridSettings->id;
         }
-        elseif($display->grid_settings_id!=null && array_key_exists('slider_settings',$displayData))
+        elseif($display->grid_settings_id!=null && array_key_exists('slider_setting',$displayData))
         {
             $this->gridSettingsService->deleteGridSetting($display->grid_settings_id);
-            $newSliderSettings = $this->sliderSettingsService->createSliderSetting($displayData['slider_settings']);
+            $newSliderSettings = $this->sliderSettingsService->createSliderSetting($displayData['slider_setting']);
             $displayData['slider_settings_id'] = $newSliderSettings->id;
         }
 
