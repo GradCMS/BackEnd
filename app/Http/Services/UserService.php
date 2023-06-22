@@ -29,6 +29,10 @@ class UserService
     {
         return $this->userRepo->getAll();
     }
+    public function getUserById($id)
+    {
+        return $this->userRepo->getById($id);
+    }
     public function deleteUser($id): void
     {
         $this->userRepo->delete($id);

@@ -53,6 +53,20 @@ class UserController extends Controller
            'users'=>$users
         ]);
     }
+    public function getUserById($id):JsonResponse
+    {
+        $validator = Validator::make(['id' => $id], [
+            'id' => 'integer|exists:users',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+        $user = $this->userService->getUserById($id);
+
+        return response()->json([
+            'user'=>$user
+        ]);
+    }
 
     public function getSuspendedUsers():JsonResponse
     {
