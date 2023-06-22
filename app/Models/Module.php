@@ -17,7 +17,8 @@ class Module extends Model
         'title',
         'subtitle',
         'content',
-        'width'
+        'width',
+        'class_id'
     ];
 
     public function pages(): BelongsToMany // every module can be contained in many pages
