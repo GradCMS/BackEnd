@@ -205,6 +205,8 @@ Route::prefix('siteIdentity')->group(function (){
 
 Route::prefix('navBar')->group(function (){
 
+    Route::get('/{id}', [NavBarController::class,'getNavBarElem']);
+
     Route::get('/', [NavBarController::class,'getNavBar']);
 
     Route::post('/',[NavBarController::class, 'addElement']);

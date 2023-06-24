@@ -49,4 +49,9 @@ class NavBarService
         return $this->navBarRepo->update($id, $navBarDTO);
 
     }
+
+    public function getNavBarElem($id)
+    {
+        return $this->navBarRepo->getById($id);
+    }
 }

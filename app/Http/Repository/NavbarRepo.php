@@ -5,8 +5,6 @@ namespace App\Http\Repository;
 use App\DTOs\ModelDTO;
 use App\Exceptions\MethodNotImplementedException;
 use App\Models\Navbar;
-use App\Models\Page;
-use App\Models\SiteIdentity;
 
 class NavbarRepo implements \App\Http\RepoInterfaces\CRUDRepoInterface
 {
@@ -62,7 +60,7 @@ class NavbarRepo implements \App\Http\RepoInterfaces\CRUDRepoInterface
 
     public function getById($id)
     {
-        throw new MethodNotImplementedException(__CLASS__, __FUNCTION__);
+       return Navbar::find($id);
     }
 
     public function update($id, ModelDTO|array $newData)
