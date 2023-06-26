@@ -131,4 +131,28 @@ class PageController extends Controller
 
     }
 
+    public function syncDisplays(Request $request): JsonResponse
+    {
+        $validator = Validator::make($request->all(),[
+            'page_id'=> 'integer|exists:pages,id',
+            'displays'=>'array',
+            'displays.*.id'=>'exists:displays,id',
+            'displays.*.priority'=>'integer'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $pageID = $request->input('page_id');
+        $displays = $request->input('displays');
+
+
+        $this->pageService->syncDisplays($pageID, $displays);
+
+        return response()->json(['message' => 'Displays synced successfully.']);
+
+
+    }
+
 }

@@ -37,13 +37,22 @@ class PageRepo implements PageRepoInterface
         $pages = Page::with(['modules' => function ($query) {
             $query->select()
                   ->withPivot('priority');
-        }])->get();
+        },
+            'pageDisplays'=>function($query){
+            $query->select()
+                  ->withPivot('priority');
+            }])->get();
 
         foreach ($pages as $page){
             $page->modules->each(function ($module) {
                 $module->makeHidden(['pivot', 'page_id', 'module_id']);
             });
+
+            $page->pageDisplays->each(function ($display) {
+                $display->makeHidden(['pivot', 'page_id', 'display_id']);
+            });
         }
+
 
         return $pages;
     }
@@ -54,10 +63,18 @@ class PageRepo implements PageRepoInterface
         $page = Page::with(['modules' => function ($query) {
             $query->select()
                 ->withPivot('priority');
-        }])->find($id);
+        },
+            'pageDisplays'=>function($query){
+                $query->select()
+                    ->withPivot('priority');
+            }])->find($id);
 
         $page->modules->each(function ($module) {
             $module->makeHidden(['pivot', 'page_id', 'module_id']);
+        });
+
+        $page->pageDisplays->each(function ($display) {
+            $display->makeHidden(['pivot', 'page_id', 'display_id']);
         });
 
         return $page;
@@ -111,4 +128,12 @@ class PageRepo implements PageRepoInterface
 
         $page->modules()->sync($modules);
     }
+
+    public function syncDisplaysInPage($pageId, $displays)
+    {
+        $page = Page::find($pageId);
+
+        $page->pageDisplays()->sync($displays);
+    }
+
 }

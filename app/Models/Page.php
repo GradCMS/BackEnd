@@ -45,4 +45,9 @@ protected $fillable = [
         return $this->belongsToMany(Module::class,'page_module');
     }
 
+    public function pageDisplays():BelongsToMany // every page has many displays
+    {
+        return $this->belongsToMany(Display::class,'page_display');
+    }
+
 }

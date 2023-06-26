@@ -130,6 +130,8 @@ Route::prefix('pages')->group(function(){
 
     Route::post('/modules', [PageController::class, 'syncModules']);
 
+    Route::post('/displays', [PageController::class, 'syncDisplays']);
+
     Route::get('/', [PageController::class, 'getAllPages']);
 
     Route::get('/tree', [PageController::class, 'getPagesTree']);

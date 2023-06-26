@@ -87,4 +87,18 @@ class PageService{
     }
 
 
+    public function syncDisplays($pageID, $displays): void
+    {
+        $displayArray=[];
+
+        foreach ($displays as $displayData)
+        {
+            $displayArray[$displayData['id']] = ['priority' => $displayData['priority']];
+        }
+
+        $this->pageRepo->syncDisplaysInPage($pageID, $displayArray);
+
+    }
+
+
 }
