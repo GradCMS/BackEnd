@@ -104,11 +104,11 @@ Route::prefix('users')->group(function(){
 
     Route::get('/',[UserController::class, 'getUsers']);
 
-    Route::get('/{id}',[UserController::class, 'getUserById']);
-
     Route::get('/count',[UserController::class, 'getUsersCount']);
 
     Route::get('/suspended',[UserController::class, 'getSuspendedUsers']);
+
+    Route::get('/{id}',[UserController::class, 'getUserById']);
 
     Route::patch('/{id}',[UserController::class, 'updateUser']);
 //        ->middleware('permission:update user');
