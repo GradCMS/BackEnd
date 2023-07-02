@@ -28,14 +28,14 @@ class PermissionsTableSeeder extends Seeder
     {
 
         $permissions = [
-            'create user',
-            'update user',
-            'delete user',
-            'suspend user',
-            'unsuspend user',
-            'create role',
-            'update role',
-            'delete role'
+            'user management',
+            'module management',
+            'role management',
+            'display management',
+            'class management',
+            'navBar management',
+            'siteIdentity management',
+            'page management',
             // Add more permissions as needed
         ];
         foreach ($permissions as $permission) {

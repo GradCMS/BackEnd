@@ -99,6 +99,10 @@ class PageService{
         $this->pageRepo->syncDisplaysInPage($pageID, $displayArray);
 
     }
+    public function getParentPages()
+    {
+        return $this->pageRepo->getParentPages();
+    }
 
 
 }

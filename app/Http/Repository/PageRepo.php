@@ -136,4 +136,11 @@ class PageRepo implements PageRepoInterface
         $page->pageDisplays()->sync($displays);
     }
 
+    /**
+     * @return mixed
+     */
+    public function getParentPages(): mixed
+    {
+        return Page::distinct()->whereNotNull('parent_id')->pluck('parent_id');
+    }
 }

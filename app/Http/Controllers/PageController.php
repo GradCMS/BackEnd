@@ -154,5 +154,13 @@ class PageController extends Controller
 
 
     }
+    public function getParentPages()
+    {
+        $parentPages = $this->pageService->getParentPages();
+
+        return response()->json([
+           'parentPages'=>$parentPages
+        ]);
+    }
 
 }
