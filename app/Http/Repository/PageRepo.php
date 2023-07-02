@@ -137,20 +137,22 @@ class PageRepo implements PageRepoInterface
     }
 
     /**
-     * @return array
+     * @return mixed
      */
-    public function getParentPages(): array
+    public function getParentPages(): mixed
     {
-        $pages = array();
         $uniqeParentIds =  Page::distinct()->whereNotNull('parent_id')->pluck('parent_id');
 
-        $parentPages = Page::whereIn('id',$uniqeParentIds)->get();
+        $parentPages = Page::select('id','title')->whereIn('id',$uniqeParentIds)->get();
 
-        foreach ($parentPages as $page)
-        {
-            $info = ["id"=>$page->id, "title"=>$page->title];
-            $pages[] = $info;
-        }
-        return $pages;
+        return $parentPages;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStandardPages(): mixed
+    {
+        return Page::select('id','title')->where('type','standard')->get();
     }
 }

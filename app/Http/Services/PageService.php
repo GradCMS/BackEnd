@@ -104,5 +104,10 @@ class PageService{
         return $this->pageRepo->getParentPages();
     }
 
+    public function getStandardPages()
+    {
+        return $this->pageRepo->getStandardPages();
+    }
+
 
 }

@@ -163,4 +163,13 @@ class PageController extends Controller
         ]);
     }
 
+    public function getStandardPages()
+    {
+        $standardPages = $this->pageService->getStandardPages();
+
+        return response()->json([
+            'standardPages'=>$standardPages
+        ]);
+    }
+
 }

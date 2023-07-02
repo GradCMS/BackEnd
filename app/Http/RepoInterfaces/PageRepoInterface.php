@@ -8,4 +8,5 @@ interface PageRepoInterface extends CRUDRepoInterface
     public function syncModulesInPage($pageId, $modules);
     public function syncDisplaysInPage($pageId, $displays);
     public function getParentPages();
+    public function getStandardPages();
 }
