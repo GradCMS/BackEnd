@@ -20,6 +20,12 @@ class SiteIdentityController extends Controller
     {
         $siteIdentity = $this->siteIdentityService->createSiteIdentity($request->all());
 
+        $siteIdentity = json_decode($siteIdentity, true);
+
+        foreach ($siteIdentity as $key => $value) {
+            $siteIdentity[$key] = json_decode($value);
+        }
+
         return response()->json([
             'message'=>'Site identity has been created successfully',
             'site identity'=>$siteIdentity
@@ -37,6 +43,12 @@ class SiteIdentityController extends Controller
         }
 
         $siteIdentity = $this->siteIdentityService->updateSiteIdentity($request->all(), $id);
+
+        $siteIdentity = json_decode($siteIdentity, true);
+
+        foreach ($siteIdentity as $key => $value) {
+            $siteIdentity[$key] = json_decode($value);
+        }
 
         return response()->json([
             'message'=>'Site identity with ID' .$id. ' has been updated successfully',
@@ -72,6 +84,21 @@ class SiteIdentityController extends Controller
         }
 
         $siteIdentity = $this->siteIdentityService->getSiteIdentity($id);
+
+        $siteIdentity = json_decode($siteIdentity, true);
+
+        foreach ($siteIdentity as $key => $value) {
+            $siteIdentity[$key] = json_decode($value);
+        }
+
+        return response()->json([
+            'Site_identity'=> $siteIdentity
+        ]);
+    }
+
+    public function getLatestRecord():JsonResponse
+    {
+        $siteIdentity = $this->siteIdentityService->getLatestRecord();
 
         $siteIdentity = json_decode($siteIdentity, true);
 

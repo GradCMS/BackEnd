@@ -199,6 +199,8 @@ Route::prefix('display')->group(function (){
 
 Route::prefix('siteIdentity')->group(function (){
 
+    Route::get('/latest', [SiteIdentityController::class,'getLatestRecord']);
+
     Route::get('/{id}', [SiteIdentityController::class,'getSiteIdentity']);
 
     Route::post('/',[SiteIdentityController::class,'createSiteIdentity']);

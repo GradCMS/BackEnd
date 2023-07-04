@@ -69,5 +69,9 @@ class SiteIdentityService
     {
         return $this->siteIdentityRepo->getById($id);
     }
+    public function getLatestRecord()
+    {
+        return $this->siteIdentityRepo->getLatestRecord();
+    }
 
 }
