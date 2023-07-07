@@ -86,7 +86,6 @@ class PageController extends Controller
 
     public function updatePage(Request $request, $pageID):JsonResponse
     {
-        //TODO: what if user wants to update an entry to null
 
         $validator = Validator::make(['id' => $pageID], [
             'id' => 'required|integer|exists:pages'

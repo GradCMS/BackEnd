@@ -3,6 +3,7 @@ namespace App\Http\Repository;
 
 use App\DTOs\ModelDTO;
 use App\Http\RepoInterfaces\PageRepoInterface;
+use App\Models\Navbar;
 use App\Models\Page;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
@@ -84,8 +85,8 @@ class PageRepo implements PageRepoInterface
     public function update($id, ModelDTO|array $newData)
     { // passing array as it's simple update
         $page = Page::find($id);
-
-        $page->update($newData);
+        $page = $this->fillData($newData, $page);
+        $page->update();
     }
 
 
