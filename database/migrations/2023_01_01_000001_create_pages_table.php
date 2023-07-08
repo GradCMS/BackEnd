@@ -20,12 +20,12 @@ class CreatePagesTable extends BaseMigration
             $table->id();
             $table->string('type');
             $table->string('title');
-            $table->string('sub_title'); // TODO: remove
+            $table->string('sub_title')->nullable(); // TODO: remove
             $table->string('url');
-            $table->text('tags');
+            $table->text('tags')->nullable();
             $table->text('short_description');
-            $table->text('header_image_url');
-            $table->text('cover_image_url');
+            $table->text('header_image_url')->nullable();
+            $table->text('cover_image_url')->nullable();
             $table->boolean('hidden');
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->timestamps();

@@ -21,9 +21,9 @@ class CreateGridSettingsTable extends BaseMigration
             $table->integer('blocks_per_row');
             $table->float('blocks_spacing');
             $table->unsignedBigInteger('class_id')->nullable(); // can be nullable?
-            $table->string('blocks_animation');
-            $table->string('horizontal_alignment');
-            $table->string('vertical_alignment');
+            $table->string('blocks_animation')->nullable();
+            $table->string('horizontal_alignment')->nullable();
+            $table->string('vertical_alignment')->nullable();
             $table->timestamps();
 
             $table->foreign('class_id')->references('id')->on('css_classes')

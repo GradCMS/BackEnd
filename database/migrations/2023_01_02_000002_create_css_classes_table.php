@@ -19,10 +19,10 @@ class CreateCssClassesTable extends BaseMigration
             $table->id();
             $table->string('placeholder');
             $table->text('tags')->nullable();
-            $table->string('reference_name');
-            $table->json('json');
-            $table->text('css');
-            $table->text('custom_css');
+            $table->string('reference_name')->nullable();
+            $table->json('json')->nullable();
+            $table->text('css')->nullable();
+            $table->text('custom_css')->nullable();
             $table->timestamps();
         });
         $this->order(2);

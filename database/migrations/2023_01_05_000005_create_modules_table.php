@@ -18,7 +18,7 @@ class CreateModulesTable extends BaseMigration
         Schema::create('modules', function (Blueprint $table) {
             $table->id();
             $table->string('placeholder');
-            $table->string('animation_style');
+            $table->string('animation_style')->nullable();
             $table->string('title');
             $table->string('subtitle');
             $table->unsignedBigInteger('class_id')->nullable();

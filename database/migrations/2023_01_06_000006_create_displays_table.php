@@ -19,7 +19,7 @@ class CreateDisplaysTable extends BaseMigration
             $table->id();
             $table->string('placeholder');
             $table->string('type');
-            $table->string('display_template');
+            $table->string('display_template')->nullable();
             $table->unsignedBigInteger('grid_settings_id')->nullable()->default(null);
             $table->unsignedBigInteger('slider_settings_id')->nullable()->default(null);
             $table->unsignedBigInteger('source_page_id');
