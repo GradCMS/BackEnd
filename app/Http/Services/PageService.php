@@ -55,6 +55,16 @@ class PageService{
     {
         $pageData = $this->uploadPageImages($pageData);
         $pageDTO = $this->createDTO($pageData);
+
+        if(array_key_exists('modules', $pageData))
+        {
+            $this->syncModules($id, $pageData['modules']);
+        }
+        if(array_key_exists('page_displays', $pageData))
+        {
+            $this->syncDisplays($id, $pageData['page_displays']);
+        }
+
         $this->pageRepo->update($id, $pageDTO);
     }
 
