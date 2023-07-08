@@ -104,20 +104,29 @@ class PageRepo implements PageRepoInterface
         return $this->buildNestedPages($pages);
     }
 
+    public function getPageChildren($pageId)
+    {
+        $page = Page::find($pageId);
+
+//        return $page->children;
+        return $this->buildNestedPages($page->children);
+    }
+
     private function buildNestedPages($pages): array
     {
         $result = [];
+        if ($pages != null) {
+            foreach ($pages as $page) {
+                $nestedChildren = $this->buildNestedPages($page->children);
 
-        foreach ($pages as $page) {
-            $nestedChildren = $this->buildNestedPages($page->children);
+                $pageData = [
+                    'id' => $page->id,
+                    'title' => $page->title,
+                    'children' => $nestedChildren
+                ];
 
-            $pageData = [
-                'id' => $page->id,
-                'title' => $page->title,
-                'children' => $nestedChildren
-            ];
-
-            $result[] = $pageData;
+                $result[] = $pageData;
+            }
         }
 
         return $result;
@@ -156,4 +165,5 @@ class PageRepo implements PageRepoInterface
     {
         return Page::select('id','title')->where('type','standard')->get();
     }
+
 }

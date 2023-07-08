@@ -136,9 +136,11 @@ Route::prefix('pages')->group(function(){
 
     Route::post('/displays', [PageController::class, 'syncDisplays']);
 
-    Route::get('/', [PageController::class, 'getAllPages']);
-
     Route::get('/tree', [PageController::class, 'getPagesTree']);
+
+    Route::get('/tree/{id}',[PageController::class, 'getPagechildren']);
+
+    Route::get('/', [PageController::class, 'getAllPages']);
 
     Route::get('/{id}', [PageController::class, 'getPageById']);
 

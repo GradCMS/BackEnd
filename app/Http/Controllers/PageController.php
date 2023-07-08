@@ -44,6 +44,22 @@ class PageController extends Controller
            'tree'=>$tree
         ]);
     }
+    public function getPagechildren($id):JsonResponse
+    {
+        $validator = Validator::make(['id' => $id], [
+            'id' => 'integer|exists:pages',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $children = $this->pageService->getPageChildren($id);
+
+        return response()->json([
+            'children'=>$children
+        ]);
+    }
+
     public function getAllPages():JsonResponse
     {
         $pages = $this->pageService->getAllPages();
