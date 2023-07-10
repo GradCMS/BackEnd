@@ -80,16 +80,16 @@ Route::prefix('auth')->group(function (){
 // Role routes
 Route::prefix('roles')->group(function (){
 
-    Route::post('/', [RoleController::class, 'createRole'])
-        ->middleware('permission:role management');
+    Route::post('/', [RoleController::class, 'createRole']);
+//        ->middleware('permission:role management');
 
     Route::get('/', [RoleController::class, 'getAllRoles']);
 
-    Route::patch('/{id}',[RoleController::class, 'updateRole'])
-        ->middleware('permission:role management');
+    Route::patch('/{id}',[RoleController::class, 'updateRole']);
+//        ->middleware('permission:role management');
 
-    Route::delete('/{id}', [RoleController::class, 'deleteRole'])
-        ->middleware('permission:role management');
+    Route::delete('/{id}', [RoleController::class, 'deleteRole']);
+//        ->middleware('permission:role management');
 
 });
 
@@ -100,46 +100,46 @@ Route::prefix('permissions')->group(function(){
 
 Route::prefix('users')->group(function(){
 
-    Route::post('/',[UserController::class, 'createUser'])
-        ->middleware('permission:user management');
+    Route::post('/',[UserController::class, 'createUser']);
+//        ->middleware('permission:user management');
 
     Route::get('/',[UserController::class, 'getUsers']);
 
     Route::get('/count',[UserController::class, 'getUsersCount']);
 
-    Route::get('/suspended',[UserController::class, 'getSuspendedUsers'])
-        ->middleware('permission:user management');
+    Route::get('/suspended',[UserController::class, 'getSuspendedUsers']);
+//        ->middleware('permission:user management');
 
     Route::get('/{id}',[UserController::class, 'getUserById']);
 
-    Route::patch('/{id}',[UserController::class, 'updateUser'])
-        ->middleware('permission:user management');
+    Route::patch('/{id}',[UserController::class, 'updateUser']);
+//        ->middleware('permission:user management');
 
-    Route::delete('/{id}',[UserController::class, 'deleteUser'])
-        ->middleware('permission:user management');
+    Route::delete('/{id}',[UserController::class, 'deleteUser']);
+//        ->middleware('permission:user management');
 
-    Route::patch('/{id}/suspend',[UserController::class, 'suspendUser'])
-        ->middleware('permission:user management');
+    Route::patch('/{id}/suspend',[UserController::class, 'suspendUser']);
+//        ->middleware('permission:user management');
 
-    Route::patch('/{id}/unsuspend',[UserController::class, 'unsuspendUser'])
-        ->middleware('permission:user management');
+    Route::patch('/{id}/unsuspend',[UserController::class, 'unsuspendUser']);
+//        ->middleware('permission:user management');
 
 });
 
 Route::prefix('pages')->group(function(){
 
-    Route::post('/',[PageController::class, 'createPage'])
-        ->middleware('permission:page management');
+    Route::post('/',[PageController::class, 'createPage']);
+//        ->middleware('permission:page management');
 
     Route::get('/parents', [PageController::class, 'getParentPages']);
 
     Route::get('/standard', [PageController::class, 'getStandardPages']);
 
-    Route::post('/modules', [PageController::class, 'syncModules'])
-        ->middleware('permission:page management');
+    Route::post('/modules', [PageController::class, 'syncModules']);
+//        ->middleware('permission:page management');
 
-    Route::post('/displays', [PageController::class, 'syncDisplays'])
-        ->middleware('permission:page management');
+    Route::post('/displays', [PageController::class, 'syncDisplays']);
+//        ->middleware('permission:page management');
 
     Route::get('/tree', [PageController::class, 'getPagesTree']);
 
@@ -149,11 +149,11 @@ Route::prefix('pages')->group(function(){
 
     Route::get('/{id}', [PageController::class, 'getPageById']);
 
-    Route::delete('/{id}', [PageController::class, 'deletePage'])
-        ->middleware('permission:page management');
+    Route::delete('/{id}', [PageController::class, 'deletePage']);
+//        ->middleware('permission:page management');
 
-    Route::patch('/{id}',[PageController::class, 'updatePage'])
-        ->middleware('permission:page management');
+    Route::patch('/{id}',[PageController::class, 'updatePage']);
+//        ->middleware('permission:page management');
 
 });
 
@@ -166,14 +166,14 @@ Route::prefix('cssClass')->group(function (){
 
     Route::get('/',[CssClassController::class,'getCssClasses']);
 
-    Route::post('/',[CssClassController::class,'createCssClass'])
-        ->middleware('permission:class management');
+    Route::post('/',[CssClassController::class,'createCssClass']);
+//        ->middleware('permission:class management');
 
-    Route::delete('/{id}',[CssClassController::class,'deleteCssClass'])
-        ->middleware('permission:class management');
+    Route::delete('/{id}',[CssClassController::class,'deleteCssClass']);
+//        ->middleware('permission:class management');
 
-    Route::patch('/{id}',[CssClassController::class,'updateCssClass'])
-        ->middleware('permission:class management');
+    Route::patch('/{id}',[CssClassController::class,'updateCssClass']);
+//        ->middleware('permission:class management');
 
 });
 
@@ -185,14 +185,14 @@ Route::prefix('module')->group(function (){
 
     Route::get('/',[ModuleController::class,'getModules']);
 
-    Route::post('/',[ModuleController::class,'createModule'])
-        ->middleware('permission:module management');
+    Route::post('/',[ModuleController::class,'createModule']);
+//        ->middleware('permission:module management');
 
-    Route::delete('/{id}',[ModuleController::class,'deleteModule'])
-        ->middleware('permission:module management');
+    Route::delete('/{id}',[ModuleController::class,'deleteModule']);
+//        ->middleware('permission:module management');
 
-    Route::patch('/{id}',[ModuleController::class,'updateModule'])
-        ->middleware('permission:module management');
+    Route::patch('/{id}',[ModuleController::class,'updateModule']);
+//        ->middleware('permission:module management');
 
 });
 
@@ -204,14 +204,14 @@ Route::prefix('display')->group(function (){
 
     Route::get('/',[DisplayController::class,'getAllDisplays']);
 
-    Route::post('/',[DisplayController::class,'createDisplay'])
-        ->middleware('permission:display management');
+    Route::post('/',[DisplayController::class,'createDisplay']);
+//        ->middleware('permission:display management');
 
-    Route::delete('/{id}',[DisplayController::class,'deleteDisplay'])
-        ->middleware('permission:display management');
+    Route::delete('/{id}',[DisplayController::class,'deleteDisplay']);
+//        ->middleware('permission:display management');
 
-    Route::patch('/{id}',[DisplayController::class,'updateDisplay'])
-        ->middleware('permission:display management');
+    Route::patch('/{id}',[DisplayController::class,'updateDisplay']);
+//        ->middleware('permission:display management');
 
 });
 
@@ -221,14 +221,14 @@ Route::prefix('siteIdentity')->group(function (){
 
     Route::get('/{id}', [SiteIdentityController::class,'getSiteIdentity']);
 
-    Route::post('/',[SiteIdentityController::class,'createSiteIdentity'])
-        ->middleware('permission:siteIdentity management');
+    Route::post('/',[SiteIdentityController::class,'createSiteIdentity']);
+//        ->middleware('permission:siteIdentity management');
 
-    Route::patch('/{id}',[SiteIdentityController::class,'updateSiteIdentity'])
-        ->middleware('permission:siteIdentity management');
+    Route::patch('/{id}',[SiteIdentityController::class,'updateSiteIdentity']);
+//        ->middleware('permission:siteIdentity management');
 
-    Route::delete('/{id}',[SiteIdentityController::class,'deleteSiteIdentity'])
-        ->middleware('permission:siteIdentity management');
+    Route::delete('/{id}',[SiteIdentityController::class,'deleteSiteIdentity']);
+//        ->middleware('permission:siteIdentity management');
 
 });
 
@@ -238,14 +238,14 @@ Route::prefix('navBar')->group(function (){
 
     Route::get('/', [NavBarController::class,'getNavBar']);
 
-    Route::post('/',[NavBarController::class, 'addElement'])
-        ->middleware('permission:navBar management');
+    Route::post('/',[NavBarController::class, 'addElement']);
+//        ->middleware('permission:navBar management');
 
-    Route::patch('/{id}',[NavBarController::class,'updateElement'])
-        ->middleware('permission:navBar management');
+    Route::patch('/{id}',[NavBarController::class,'updateElement']);
+//        ->middleware('permission:navBar management');
 
-    Route::delete('/{id}',[NavBarController::class,'deleteElement'])
-        ->middleware('permission:navBar management');
+    Route::delete('/{id}',[NavBarController::class,'deleteElement']);
+//        ->middleware('permission:navBar management');
 
 });
 

@@ -43,7 +43,7 @@ class Kernel extends HttpKernel
         //TODO: uncomment the checkIsSuspended middleware
         'api' => [
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-            'throttle:api',
+//            'throttle:api',
             SubstituteBindings::class,
 //            CheckIsSuspended::class,
         ],
