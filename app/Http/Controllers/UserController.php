@@ -75,6 +75,15 @@ class UserController extends Controller
             'suspended users'=>$users
         ]);
     }
+
+    public function getUnsuspendedUsers():JsonResponse
+    {
+        $users = $this->userService->getUnsuspendedUsers();
+        return response()->json([
+            'unsuspended users'=>$users
+        ]);
+    }
+
     public function getUsersCount():JsonResponse
     {
         $count = $this->userService->getUsersCount();

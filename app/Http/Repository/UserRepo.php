@@ -115,6 +115,11 @@ class UserRepo implements UserRepoInterface
     {
         return User::whereIsSuspended(true)->get();
     }
+    
+    public function getUnsuspendedUsers():mixed
+    {
+        return User::whereIsSuspended(false)->get();
+    }
 
     /**
      * @return mixed
