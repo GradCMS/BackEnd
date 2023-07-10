@@ -123,4 +123,13 @@ class UserRepo implements UserRepoInterface
     {
         return User::count();
     }
+
+    /**
+     * @param $userName
+     * @return mixed
+     */
+    public function getUserByName($userName)
+    {
+        return User::firstWhere('user_name', $userName);
+    }
 }

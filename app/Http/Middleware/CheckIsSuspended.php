@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\RepoInterfaces\RepoRegisteryInterface;
+use App\Models\User;
 use Closure;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -10,6 +12,14 @@ use Illuminate\Http\Response;
 
 class CheckIsSuspended
 {
+
+    private $registry;
+    private $userRepo;
+    public function __construct(RepoRegisteryInterface $repoRegistery)
+    {
+        $this->registry = $repoRegistery->getInstance();
+        $this->userRepo = $this->registry->get('user');
+    }
     /**
      * Handle an incoming request.
      *
@@ -21,9 +31,17 @@ class CheckIsSuspended
     {
         $user = auth()->user();
 
-        if ($user && $user->is_suspended) {
+        $userName = $request->get('user_name');
+        $retrivedUser = $this->userRepo->getUserByName($userName);
+        $retrivedUser->makeVisible('is_suspended');
+        $isSuspended = $retrivedUser->is_suspended;
+
+        if ($isSuspended) {
             return response()->json(['error' => 'User is suspended'], 401);
         }
-        return $next($request);
+        else{
+            return $next($request);
+        }
+
     }
 }

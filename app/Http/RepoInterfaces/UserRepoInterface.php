@@ -9,4 +9,6 @@ interface UserRepoInterface extends CRUDRepoInterface
     public function getSuspendedUsers();
     public function getUsersCount();
 
+    public function getUserByName($userName);
+
 }
