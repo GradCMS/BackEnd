@@ -81,6 +81,10 @@ class UserService
     {
         return $this->userRepo->getSuspendedUsers();
     }
+    public function getUnsuspendedUsers()
+    {
+        return $this->userRepo->getUnsuspendedUsers();
+    }
     public function getUsersCount()
     {
         return $this->userRepo->getUsersCount();
